@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/GlobalStyles.css';
 import '../styles/Login-RegisterPage.css';
-import image from "../images/loginImage.jpg"
+//import image from '../images/loginImage.jpg'
 
 const LoginPage: React.FC = () => {
     return (
         <div className="page-container">
             <div className="left-section">
                 <img
-                    src={image}
+                    src={'../images/loginImage.jpg'}
                     alt="Login Illustration"
                     className="login-image"
                 />

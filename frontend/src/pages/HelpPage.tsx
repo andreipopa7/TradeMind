@@ -4,7 +4,7 @@ import SideMenu from '../components/SideMenu';
 import '../styles/GlobalStyles.css';
 import '../styles/HomePage.css';
 
-const HomePage: React.FC = () => {
+const HelpPage: React.FC = () => {
     return (
         <div className="home-page">
             <NavBar />
@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Home Page</h1>
+                    <h1>Help Page</h1>
 
                 </div>
             </div>
@@ -23,4 +23,4 @@ const HomePage: React.FC = () => {
     );
 };
 
-export default HomePage;
+export default HelpPage;

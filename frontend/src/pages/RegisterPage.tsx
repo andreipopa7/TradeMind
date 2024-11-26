@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { countries } from '../components/utils';
 import '../styles/Login-RegisterPage.css';
 import '../styles/GlobalStyles.css';
-import image from "../images/loginImage.jpg"
 
 const RegisterPage: React.FC = () => {
     const [selectedGender, setSelectedGender] = useState('');
@@ -21,7 +20,7 @@ const RegisterPage: React.FC = () => {
         <div className="page-container">
             <div className="left-section">
                 <img
-                    src={image}
+                    src={"../images/loginImage.jpg"}
                     alt="Login Illustration"
                     className="login-image"
                 />

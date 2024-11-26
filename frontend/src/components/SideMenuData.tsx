@@ -1,7 +1,7 @@
 import { AiFillHome, AiOutlineAppstore } from "react-icons/ai";
-import { FaCog, FaCartPlus, FaEnvelopeOpenText } from "react-icons/fa";
-import { IoPeople, IoHelpCircle, IoChevronDown  } from "react-icons/io5";
-
+import { FaCog, FaCalendarAlt, FaEnvelopeOpenText } from "react-icons/fa";
+import { IoPeople, IoHelpCircle, IoChevronDown } from "react-icons/io5";
+import { BsGraphUp, BsListCheck } from "react-icons/bs";
 
 export type SidebarItem = {
     title: string;
@@ -12,8 +12,6 @@ export type SidebarItem = {
     arrow?: React.ReactNode;
 };
 
-
-
 export const SideMenuData: SidebarItem[] = [
     {
         title: "Home",
@@ -22,20 +20,20 @@ export const SideMenuData: SidebarItem[] = [
         cName: "side-menu-text",
     },
     {
-        title: "Account Dashboard",
+        title: "Accounts",
         path: "#",
-        icon: <FaCog />,
+        icon: <IoPeople />,
         cName: "side-menu-text",
         subMenu: [
             {
-                title: "Overview",
-                path: "/dashboard/overview",
+                title: "Add New Account",
+                path: "/accounts/add",
                 icon: <AiOutlineAppstore />,
             },
             {
-                title: "Settings",
-                path: "/dashboard/settings",
-                icon: <FaCog />,
+                title: "Your Accounts",
+                path: "/accounts/view",
+                icon: <BsListCheck />,
             },
         ],
         arrow: <IoChevronDown />,
@@ -43,43 +41,73 @@ export const SideMenuData: SidebarItem[] = [
     {
         title: "Backtesting",
         path: "#",
-        icon: <FaCog />,
+        icon: <BsGraphUp />,
         cName: "side-menu-text",
         subMenu: [
             {
                 title: "New Backtesting Session",
-                path: "/dashboard/overview",
+                path: "/backtesting/new-session",
                 icon: <AiOutlineAppstore />,
             },
             {
-                title: "View Your Backtesting Sessions",
-                path: "/dashboard/settings",
+                title: "View History of Your Backtestings",
+                path: "/backtesting/history",
+                icon: <FaCalendarAlt />,
+            },
+            {
+                title: "Custom Your Personal Strategy",
+                path: "/backtesting/custom-strategy",
                 icon: <FaCog />,
             },
         ],
         arrow: <IoChevronDown />,
     },
     {
-        title: "Products",
-        path: "/edit-credentials",
-        icon: <FaCartPlus />,
+        title: "Statistics",
+        path: "#",
+        icon: <BsGraphUp />,
+        cName: "side-menu-text",
+        subMenu: [
+            {
+                title: "Create New Statistic",
+                path: "/statistics/new",
+                icon: <AiOutlineAppstore />,
+            },
+            {
+                title: "Your Statistics",
+                path: "/statistics/view",
+                icon: <BsListCheck />,
+            },
+        ],
+        arrow: <IoChevronDown />,
+    },
+    {
+        title: "Economic Calendar",
+        path: "/economic-calendar",
+        icon: <FaCalendarAlt />,
         cName: "side-menu-text",
     },
     {
-        title: "News",
-        path: "/news",
-        icon: <IoPeople />,
+        title: "Personal Calendar",
+        path: "/personal-calendar",
+        icon: <FaCalendarAlt />,
         cName: "side-menu-text",
     },
     {
         title: "Inbox",
-        path: "/edit-credentials",
+        path: "/inbox",
         icon: <FaEnvelopeOpenText />,
         cName: "side-menu-text",
     },
     {
-        title: "Support",
-        path: "/edit-credentials",
+        title: "Settings",
+        path: "/settings",
+        icon: <FaCog />,
+        cName: "side-menu-text",
+    },
+    {
+        title: "Help",
+        path: "/help",
         icon: <IoHelpCircle />,
         cName: "side-menu-text",
     },
