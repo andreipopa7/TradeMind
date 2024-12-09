@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: tradeuser
+      POSTGRES_PASSWORD: tradepass
+      POSTGRES_DB: trademind
+    volumes:
+      - ./db/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  mongo:
+    image: mongo:6
+    container_name: mongo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: trader
+      MONGO_INITDB_ROOT_PASSWORD: tradepass
+    volumes:
+      - ./db/mongo:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+
+  backend:
+    build:
+      context: ./app/FastAPI_app
+    container_name: backend
+    depends_on:
+      - postgres
+      - mongo
+    ports:
+      - "8000:8000"
+
+  gateway:
+    build:
+      context: ./app/Gateway
+    container_name: gateway
+    depends_on:
+      - backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./app/frontend
+    container_name: frontend
+    depends_on:
+      - gateway
+    ports:
+      - "3000:3000"
