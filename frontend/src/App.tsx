@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import LoginPage from './pages/auth_pages/LoginPage';
 import RegisterPage from './pages/auth_pages/RegisterPage';
 import HomePage from './pages/home_page/HomePage';
@@ -10,6 +11,7 @@ import NewBacktesting from "./pages/backtesting_pages/NewBacktesting";
 import CustomStrategy from "./pages/backtesting_pages/CustomStrategy";
 import HelpPage from "./pages/help_page/HelpPage";
 import EconomicCalendarPage from "./pages/economic_calendar_pages/EconomicCalendarPage";
+
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
