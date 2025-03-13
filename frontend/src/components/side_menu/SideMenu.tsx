@@ -10,14 +10,12 @@ const SideMenu: React.FC = () => {
     };
 
     const renderMenuItem = (item: SidebarItem) => {
-        // Verificăm dacă elementul are submeniuri
         const hasSubMenu = item.subMenu && item.subMenu.length > 0;
 
         return (
             <div
                 key={item.title}
-                className={`menu-item ${hasSubMenu ? "has-submenu" : ""}`}
-            >
+                className={`menu-item ${hasSubMenu ? "has-submenu" : ""}`} >
                 <a href={item.path} className="menu-item-header" onClick={() => handleToggleSubMenu(item.title)}>
                     <span className="icon">{item.icon}</span>
                     <span className="label">{item.title}</span>

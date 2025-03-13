@@ -1,18 +1,32 @@
 import React from "react";
 import "../view_accounts/DashboardStyles.css";
+import "./StatisticsTable.css";
 
-const StatisticsTable: React.FC = () => {
+
+interface StatsProps {
+    stats: {
+        totalTrades?: number;
+        winRate?: number;
+        avgProfit?: number;
+        avgLoss?: number;
+        profitFactor?: number;
+    } | null;
+}
+
+const StatisticsTable: React.FC<{ stats: StatsProps["stats"] }> = ({ stats }) => {
+    if (!stats) {
+        return <p>Loading statistics...</p>;
+    }
+
     return (
         <div className="statistics-table">
             <h2>Statistics</h2>
             <div className="stats-grid">
-                <div><strong>Equity:</strong> $33,451.61</div>
-                <div><strong>Balance:</strong> $33,451.61</div>
-                <div><strong>No. of Trades:</strong> 44</div>
-                <div><strong>Win Rate:</strong> 54.55%</div>
-                <div><strong>Average Profit:</strong> $3,570.64</div>
-                <div><strong>Average Loss:</strong> -$7,612.19</div>
-                <div><strong>Profit Factor:</strong> 0.56</div>
+                <div><strong>No. of Trades:</strong> {stats.totalTrades !== undefined ? stats.totalTrades : "N/A"}</div>
+                <div><strong>Win Rate:</strong> {stats.winRate !== undefined ? `${stats.winRate}%` : "N/A"}</div>
+                <div><strong>Average Profit:</strong> {stats.avgProfit !== undefined ? `$${stats.avgProfit.toLocaleString()}` : "N/A"}</div>
+                <div><strong>Average Loss:</strong> {stats.avgLoss !== undefined ? `-$${Math.abs(stats.avgLoss).toLocaleString()}` : "N/A"}</div>
+                <div><strong>Profit Factor:</strong> {stats.profitFactor !== undefined ? stats.profitFactor : "N/A"}</div>
             </div>
         </div>
     );

@@ -1,0 +1,32 @@
+.trading-journal {
+    background: #1e1e1e;
+    color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.trading-journal table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trading-journal th, .trading-journal td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.trading-journal th {
+    background: #333;
+    color: #f0b90b;
+}
+
+.trading-journal td {
+    color: #cccccc;
+}
+
+.trading-journal td:last-child {
+    font-weight: bold;
+}

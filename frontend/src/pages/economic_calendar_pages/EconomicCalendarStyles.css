@@ -1,41 +1,62 @@
 .economic-calendar-page {
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.economic-calendar-content {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.side-menu {
+    flex: 0.2;
+}
+
+.calendar-content {
+    flex: 0.9;
     padding: 20px;
+    text-align: center;
+    color: white;
 }
 
-.filters {
+.calendar-selector, .filter-options {
     margin-bottom: 20px;
+}
+
+.calendar-selector label, .filter-options label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: white;
+}
+
+.calendar-selector select, .filter-options select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #222;
+    color: white;
+}
+
+
+
+.calendar-iframe-container {
+    width: 100%;
+    height: 900px;
+    border-radius: 10px;
+    overflow: hidden;
     display: flex;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
-select {
-    padding: 10px;
-    font-size: 14px;
-}
-
-.events-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.event-card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    background: #f9f9f9;
-}
-
-.impact-high {
-    border-left: 5px solid red;
-}
-
-.impact-medium {
-    border-left: 5px solid orange;
-}
-
-.impact-low {
-    border-left: 5px solid green;
+.calendar-iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }

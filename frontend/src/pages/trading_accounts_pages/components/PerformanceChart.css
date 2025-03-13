@@ -1,0 +1,15 @@
+.chart-container {
+    background: #1e1e1e;
+    color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+p {
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+}

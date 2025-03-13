@@ -1,7 +1,7 @@
 import { AiFillHome, AiOutlineAppstore } from "react-icons/ai";
-import { FaCog, FaCalendarAlt, FaEnvelopeOpenText } from "react-icons/fa";
+import {FaCog, FaCalendarAlt, FaEnvelopeOpenText, FaCalendarDay} from "react-icons/fa";
 import { IoPeople, IoHelpCircle, IoChevronDown } from "react-icons/io5";
-import { BsGraphUp, BsListCheck } from "react-icons/bs";
+import {BsGraphUp, BsGraphUpArrow, BsListCheck} from "react-icons/bs";
 
 export type SidebarItem = {
     title: string;
@@ -20,7 +20,7 @@ export const SideMenuData: SidebarItem[] = [
         cName: "side-menu-text",
     },
     {
-        title: "Accounts",
+        title: "**Accounts",
         path: "#",
         icon: <IoPeople />,
         cName: "side-menu-text",
@@ -32,7 +32,7 @@ export const SideMenuData: SidebarItem[] = [
             },
             {
                 title: "Your Accounts",
-                path: "/accounts/view",
+                path: "/accounts/dashboard",
                 icon: <BsListCheck />,
             },
         ],
@@ -65,7 +65,7 @@ export const SideMenuData: SidebarItem[] = [
     {
         title: "Statistics",
         path: "#",
-        icon: <BsGraphUp />,
+        icon: <BsGraphUpArrow />,
         cName: "side-menu-text",
         subMenu: [
             {
@@ -82,7 +82,7 @@ export const SideMenuData: SidebarItem[] = [
         arrow: <IoChevronDown />,
     },
     {
-        title: "Economic Calendar",
+        title: "**Economic Calendar",
         path: "/economic-calendar",
         icon: <FaCalendarAlt />,
         cName: "side-menu-text",
@@ -90,7 +90,7 @@ export const SideMenuData: SidebarItem[] = [
     {
         title: "Personal Calendar",
         path: "/personal-calendar",
-        icon: <FaCalendarAlt />,
+        icon: <FaCalendarDay />,
         cName: "side-menu-text",
     },
     {

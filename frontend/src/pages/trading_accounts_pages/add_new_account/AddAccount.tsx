@@ -1,43 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../styles/GlobalStyles.css";
 import "./AddAccountStyles.css";
 import NavBar from "../../../components/nav_bar/NavBar";
 import SideMenu from "../../../components/side_menu/SideMenu";
-import { useNavigate } from "react-router-dom";
 
 const AddAccount: React.FC = () => {
     const [formData, setFormData] = useState({
-        broker: "",
-        accountId: "",
-        password: "",
+        user_email: "",
+        broker_name: "",
+        account_id: "",
         server: "",
+        password: "",
     });
 
-    const [error, setError] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const storedEmail = localStorage.getItem("email");
+        if (storedEmail) {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                user_email: storedEmail,
+            }));
+        } else {
+            setErrorMessage("No user email found. Please log in.");
+        }
+    }, []);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [id]: value,
         });
+
+        validateField(id, value);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
+    const validateField = (field: string, value: string) => {
+        let error = "";
 
-        // Validare simplă
-        if (!formData.broker || !formData.accountId || !formData.password || !formData.server) {
-            setError("All fields are required.");
+        if (!value.trim()) {
+            error = "This field is required.";
+        } else {
+            if (field === "account_id" && !/^\d+$/.test(value)) {
+                error = "Account ID must contain only digits.";
+            }
+        }
+
+        setFieldErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: error,
+        }));
+    };
+
+    const validateForm = () => {
+        const errors: { [key: string]: string } = {};
+
+        Object.keys(formData).forEach((field) => {
+            if (!formData[field as keyof typeof formData].trim()) {
+                errors[field] = "This field is required.";
+            }
+        });
+
+        if (formData.account_id && !/^\d+$/.test(formData.account_id)) {
+            errors.account_id = "Account ID must contain only digits.";
+        }
+
+        setFieldErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setErrorMessage("");
+        setSuccessMessage("");
+
+        if (!validateForm()) {
             return;
         }
 
-        // Simulare verificare cont
-        setTimeout(() => {
-            alert("Cont adăugat cu succes!");
-            navigate(`/dashboard/${formData.accountId}`);
-        }, 1000); // După 1 secundă, redirecționează către dashboard
+        console.log("Form Data:", formData);
+
+        try {
+            const response = await fetch("http://localhost:8000/api/trademind/trading_accounts/add_account", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setSuccessMessage("Account successfully added!");
+                setTimeout(() => navigate(`/accounts/dashboard/${formData.account_id}`), 2000);
+            } else {
+                const errorData = await response.json();
+                setErrorMessage(errorData.detail || "Invalid trading account credentials. Failed to add account.");
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            setErrorMessage("Network error. Please try again.");
+        }
     };
 
     return (
@@ -50,55 +118,65 @@ const AddAccount: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Add your new trading account!</h1>
+                    <h1>Add New Trading Account</h1>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    {successMessage && <p className="success-message">{successMessage}</p>}
+
                     <form className="add-account-form" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="broker">Broker:</label>
                             <input
                                 type="text"
-                                id="broker"
-                                name="broker"
-                                value={formData.broker}
+                                id="broker_name"
+                                value={formData.broker_name}
                                 onChange={handleInputChange}
-                                placeholder="Broker name"
+                                placeholder="Enter broker name"
+                                required
                             />
+                            {fieldErrors.broker_name && <p className="field-error">{fieldErrors.broker_name}</p>}
                         </div>
+
                         <div className="form-group">
-                            <label htmlFor="accountId">ID Cont:</label>
+                            <label htmlFor="accountId">Account ID:</label>
                             <input
                                 type="text"
-                                id="accountId"
-                                name="accountId"
-                                value={formData.accountId}
+                                id="account_id"
+                                value={formData.account_id}
                                 onChange={handleInputChange}
-                                placeholder="Account ID"
+                                placeholder="Enter account ID"
+                                required
                             />
+                            {fieldErrors.account_id && <p className="field-error">{fieldErrors.account_id}</p>}
                         </div>
+
                         <div className="form-group">
-                            <label htmlFor="password">Parolă:</label>
+                            <label htmlFor="password">Account Password:</label>
                             <input
                                 type="password"
                                 id="password"
-                                name="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
-                                placeholder="Account Password"
+                                placeholder="Enter account password"
+                                required
                             />
+                            {fieldErrors.password && <p className="field-error">{fieldErrors.password}</p>}
                         </div>
+
                         <div className="form-group">
                             <label htmlFor="server">Server:</label>
                             <input
                                 type="text"
                                 id="server"
-                                name="server"
                                 value={formData.server}
                                 onChange={handleInputChange}
-                                placeholder="Account Server"
+                                placeholder="Enter server"
+                                required
                             />
+                            {fieldErrors.server && <p className="field-error">{fieldErrors.server}</p>}
                         </div>
-                        {error && <p className="error-message">{error}</p>}
+
                         <button type="submit" className="submit-button">
-                            Adaugă Cont
+                            Add Account
                         </button>
                     </form>
                 </div>

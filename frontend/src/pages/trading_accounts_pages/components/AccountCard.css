@@ -1,0 +1,142 @@
+.account-info-card {
+    background: #1e1e1e;
+    color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.info-grid div {
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.info-grid div strong {
+    color: #f0b90b;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+.account-buttons, .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.metrics-button, .credentials-button, .delete-button,
+.delete-confirm, .delete-cancel,
+.cancel-button, .add-account-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+.metrics-button {
+    background: #007bff;
+    color: white;
+}
+
+.metrics-button:hover {
+    background: #0056b3;
+}
+
+.credentials-button, .delete-confirm,
+.add-account-button {
+    background: #f0b90b;
+    color: black;
+}
+
+.credentials-button:hover .delete-confirm:hover,
+.add-account-button:hover {
+    background: #d39e30;
+}
+
+.delete-button, .delete-cancel, .cancel-button{
+    background: #d9534f;
+    color: black;
+}
+
+.delete-button:hover , .delete-cancel:hover, .cancel-button:hover{
+    background: #d8232f;
+}
+
+.credentials-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.credential-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.credential-item span {
+    color: white;
+    font-size: 16px;
+}
+
+.credential-item button {
+    background: none;
+    border: none;
+    color: #f0b90b;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.credential-item button:hover {
+    color: #ffcc00;
+}
+
