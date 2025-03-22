@@ -43,5 +43,5 @@ class TradingAccountPAOInterface:
         pass
 
     # Get all
-    def get_trading_accounts(self, user_email: int) -> List[dict]:
+    def get_trading_accounts(self, user_id: int) -> List[dict]:
         pass

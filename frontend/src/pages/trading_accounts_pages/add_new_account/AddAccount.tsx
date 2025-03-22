@@ -7,7 +7,7 @@ import SideMenu from "../../../components/side_menu/SideMenu";
 
 const AddAccount: React.FC = () => {
     const [formData, setFormData] = useState({
-        user_email: "",
+        user_id: "",
         broker_name: "",
         account_id: "",
         server: "",
@@ -20,16 +20,17 @@ const AddAccount: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedEmail = localStorage.getItem("email");
-        if (storedEmail) {
+        const storedID = localStorage.getItem("user_id");
+        if (storedID) {
             setFormData((prevFormData) => ({
                 ...prevFormData,
-                user_email: storedEmail,
+                user_id: storedID,
             }));
         } else {
-            setErrorMessage("No user email found. Please log in.");
+            setErrorMessage("No user found. Please log in.");
         }
     }, []);
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -84,7 +85,12 @@ const AddAccount: React.FC = () => {
             return;
         }
 
-        console.log("Form Data:", formData);
+        const formDataToSend = {
+            ...formData,
+            user_id: Number(formData.user_id),
+        };
+
+        console.log("Form Data:", formDataToSend);
 
         try {
             const response = await fetch("http://localhost:8000/api/trademind/trading_accounts/add_account", {
@@ -92,7 +98,7 @@ const AddAccount: React.FC = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formDataToSend),
             });
 
             if (response.ok) {
@@ -107,6 +113,7 @@ const AddAccount: React.FC = () => {
             setErrorMessage("Network error. Please try again.");
         }
     };
+
 
     return (
         <div className="add-account-page">

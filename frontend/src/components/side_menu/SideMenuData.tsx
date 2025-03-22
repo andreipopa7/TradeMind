@@ -69,14 +69,19 @@ export const SideMenuData: SidebarItem[] = [
         cName: "side-menu-text",
         subMenu: [
             {
-                title: "Create New Statistic",
-                path: "/statistics/new",
-                icon: <AiOutlineAppstore />,
+                title: "My Trades",
+                path: "/statistics/my_trades",
+                icon: <BsGraphUp />,
             },
             {
-                title: "Your Statistics",
-                path: "/statistics/view",
+                title: "My Statistics",
+                path: "/statistics/my_statistics",
                 icon: <BsListCheck />,
+            },
+            {
+                title: "Create New Statistic",
+                path: "/statistics/new_statistic",
+                icon: <AiOutlineAppstore />,
             },
         ],
         arrow: <IoChevronDown />,

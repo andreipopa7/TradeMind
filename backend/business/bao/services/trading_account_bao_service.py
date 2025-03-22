@@ -90,8 +90,8 @@ class TradingAccountBAOService(TradingAccountBAOInterface):
         return [TradingAccountMapper.dto_to_bto(account) for account in accounts] if accounts else []
 
     # Get all
-    def get_user_accounts(self, user_email: str) -> List[TradingAccountBTO]:
-        accounts = self.trading_account_dal.get_user_accounts(user_email)
+    def get_user_accounts(self, user_id: int) -> List[TradingAccountBTO]:
+        accounts = self.trading_account_dal.get_user_accounts(user_id)
 
         if not accounts:
             raise HTTPException(status_code=404, detail="No trading accounts found for this user.")

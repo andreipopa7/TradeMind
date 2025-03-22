@@ -1,0 +1,83 @@
+.trade-row:hover {
+    background: #2c2c2c;
+}
+
+.profit-positive {
+    color: #4caf50;
+    font-weight: bold;
+}
+
+.profit-negative {
+    color: #ff3b30;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.edit-btn {
+    background: #2196f3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-btn {
+    background: #ff3b30;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-btn:hover {
+    background: #1976d2;
+}
+
+.delete-btn:hover {
+    background: #d32f2f;
+}
+
+
+
+.actions-container {
+    position: relative;
+    text-align: center;
+    width: 50px;
+}
+
+.actions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.actions-dropdown button {
+    background: none;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    width: 100px;
+}
+
+.actions-dropdown button:hover {
+    background: #f0b90b;
+    color: black;
+}

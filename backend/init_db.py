@@ -3,11 +3,12 @@ from sqlalchemy.exc import OperationalError
 from database import engine, Base
 from persistence.entities.user_entity import UserEntity
 from persistence.entities.trading_account_entity import TradingAccountEntity
+from persistence.entities.trade_entity import TradeEntity
+from persistence.entities.backtest_entity import BacktestEntity
+from persistence.entities.strategy_entity import StrategyEntity
 
-# from persistence.entities.backtest_entity import Backtest
-# from persistence.entities.event_entity import Event
-# from persistence.entities.trade_entity import Trade
-# from persistence.entities.document_entity import Document
+# from persistence.entities.event_entity import EventEntity
+
 
 
 def wait_for_db():

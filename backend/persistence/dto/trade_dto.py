@@ -1,22 +1,36 @@
-from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
-from decimal import Decimal
+from pydantic import BaseModel
+from datetime import date, time
+from persistence.entities.utils_entity import TradeType, SourceType, SessionType
+
 
 class TradeDTO(BaseModel):
-    id:             Optional[int]
-    account_id:     int
-    open_date:      datetime
-    type:           str
-    symbol:         str
-    volume:         Decimal
-    open_price:     Decimal
+    id:          Optional[int]
+    user_id:     int
 
-    sl_price:       Optional[Decimal] = None
-    tp_price:       Optional[Decimal] = None
-    close_price:    Optional[Decimal] = None
-    close_date:     Optional[datetime] = None
-    swap:           Optional[Decimal] = None
-    commission:     Optional[Decimal] = None
-    profit:         Optional[Decimal] = None
-    pips:           Optional[Decimal] = None
+    market:      str
+    volume:      float
+    type:        TradeType
+
+    open_date:   date
+    open_time:   time
+    close_date:  Optional[date]
+    close_time:  Optional[time]
+    session:     Optional[SessionType]
+
+    open_price:  float
+    close_price: Optional[float]
+    sl_price:    Optional[float]
+    tp_price:    Optional[float]
+
+    swap:        Optional[float]
+    commission:  Optional[float]
+    profit:      Optional[float]
+    pips:        Optional[float]
+
+    link_photo:  Optional[str]
+
+    source_type: SourceType
+
+    class Config:
+        from_attributes = True

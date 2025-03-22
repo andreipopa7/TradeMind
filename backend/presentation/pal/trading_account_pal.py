@@ -43,5 +43,5 @@ class TradingAccountPAL:
         return self.trading_account_pao.get_accounts_by_broker(broker_name)
 
     # Get all
-    def get_trading_accounts(self, user_email: str) -> List[dict]:
-        return self.trading_account_pao.get_trading_accounts(user_email)
+    def get_trading_accounts(self, user_id: int) -> List[dict]:
+        return self.trading_account_pao.get_trading_accounts(user_id)

@@ -1,49 +1,16 @@
 import hashlib
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.orm import Session
 from persistence.dao.interfaces.user_dao_interface import UserDAOInterface
-from persistence.dto.trading_account_dto import TradingAccountDTO
 from persistence.dto.user_dto import UserDTO
 from persistence.entities.user_entity import UserEntity
-from persistence.mappers.trading_account_mapper import TradingAccountMapper
 from persistence.mappers.user_mapper import UserMapper
 
 
 class UserRepository(UserDAOInterface):
     def __init__(self, db: Session):
         self.db = db
-
-    # Getters
-    def get_user_by_id(self, user_id: int) -> UserDTO:
-        user_entity = self.db.query(UserEntity).filter(UserEntity.id == user_id).first()
-        return UserMapper.entity_to_dto(user_entity) if user_entity else None
-
-    def get_user_by_fist_name(self, first_name: str) -> UserDTO:
-        user_entity = self.db.query(UserEntity).filter(UserEntity.first_name == first_name).first()
-        return UserMapper.entity_to_dto(user_entity) if user_entity else None
-
-    def get_user_by_last_name(self, last_name: str) -> UserDTO:
-        user_entity = self.db.query(UserEntity).filter(UserEntity.last_name == last_name).first()
-        return UserMapper.entity_to_dto(user_entity) if user_entity else None
-
-    def get_user_by_email(self, email: str) -> UserDTO:
-        user_entity = self.db.query(UserEntity).filter(UserEntity.email == email).first()
-        return UserMapper.entity_to_dto(user_entity) if user_entity else None
-
-    def get_user_by_password(self, password: str) -> UserDTO:
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        user_entity = self.db.query(UserEntity).filter(UserEntity.password == hashed_password).first()
-        return UserMapper.entity_to_dto(user_entity) if user_entity else None
-
-    def get_user_by_email_and_password(self, email: str, password: str):
-        hashed_password = hashlib.md5(password.encode('utf-8')).hexdigest()
-        user_entity = (
-            self.db.query(UserEntity)
-            .filter(UserEntity.email == email, UserEntity.password == hashed_password)
-            .first()
-        )
-        return user_entity
 
 
     # Create & delete
@@ -118,6 +85,41 @@ class UserRepository(UserDAOInterface):
             self.db.refresh(user_entity)
             return UserMapper.entity_to_dto(user_entity)
         return None
+
+
+    # Getters
+    def get_user_by_id(self, user_id: int) -> UserDTO:
+        user_entity = self.db.query(UserEntity).filter(UserEntity.id == user_id).first()
+        return UserMapper.entity_to_dto(user_entity) if user_entity else None
+
+    def get_user_by_first_name(self, first_name: str) -> UserDTO:
+        user_entity = self.db.query(UserEntity).filter(UserEntity.first_name == first_name).first()
+        return UserMapper.entity_to_dto(user_entity) if user_entity else None
+
+    def get_user_by_last_name(self, last_name: str) -> UserDTO:
+        user_entity = self.db.query(UserEntity).filter(UserEntity.last_name == last_name).first()
+        return UserMapper.entity_to_dto(user_entity) if user_entity else None
+
+    def get_user_by_email(self, email: str) -> UserDTO:
+        user_entity = self.db.query(UserEntity).filter(UserEntity.email == email).first()
+        return UserMapper.entity_to_dto(user_entity) if user_entity else None
+
+    def get_user_by_password(self, password: str) -> UserDTO:
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        user_entity = self.db.query(UserEntity).filter(UserEntity.password == hashed_password).first()
+        return UserMapper.entity_to_dto(user_entity) if user_entity else None
+
+    def get_user_by_email_and_password(self, email: str, password: str) -> Optional[UserDTO]:
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        user_entity = (
+            self.db.query(UserEntity)
+            .filter(UserEntity.email == email, UserEntity.password == hashed_password)
+            .first()
+        )
+        return UserMapper.entity_to_dto(user_entity) if user_entity else None
+
+
+
 
 
     # Getters - multiple rows

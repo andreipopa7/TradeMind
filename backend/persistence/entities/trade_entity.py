@@ -1,25 +1,45 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP, Numeric
+from sqlalchemy import Column, Integer, String, Date, Time, Numeric, Enum, ForeignKey
 from sqlalchemy.orm import relationship
+
 from database import Base
 
-class Trade(Base):
+from persistence.entities.utils_entity import TradeType, SourceType, SessionType
+
+
+class TradeEntity(Base):
     __tablename__ = 'trades'
 
-    id          = Column(Integer, primary_key=True)
-    account_id  = Column(Integer, ForeignKey('trading_accounts.id', ondelete='CASCADE'))
-    open_date   = Column(TIMESTAMP, nullable=False)
-    type        = Column(String(10), nullable=False)
-    symbol      = Column(String(20), nullable=False)
+    # Identifying part
+    id          = Column(Integer, primary_key=True, autoincrement=True)
+    user_id     = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+    # Essential part
+    market      = Column(String(20), nullable=False)
     volume      = Column(Numeric(10, 2), nullable=False)
+    type        = Column(Enum(TradeType), nullable=False)
+
+    # Time part
+    open_date   = Column(Date, nullable=False)
+    open_time   = Column(Time, nullable=False)
+    close_date  = Column(Date, nullable=True)
+    close_time  = Column(Time, nullable=True)
+    session     = Column(Enum(SessionType), nullable=False)
+
+    # Price part
     open_price  = Column(Numeric(14, 5), nullable=False)
+    close_price = Column(Numeric(14, 5), nullable=True)
+    sl_price    = Column(Numeric(14, 5), nullable=True)
+    tp_price    = Column(Numeric(14, 5), nullable=True)
 
-    sl_price    = Column(Numeric(14, 5))
-    tp_price    = Column(Numeric(14, 5))
-    close_price = Column(Numeric(14, 5))
-    close_date  = Column(TIMESTAMP)
-    swap        = Column(Numeric(12, 2))
-    commission  = Column(Numeric(12, 2))
-    profit      = Column(Numeric(12, 2))
-    pips        = Column(Numeric(12, 2))
+    # Money part
+    swap        = Column(Numeric(12, 2), nullable=True)
+    commission  = Column(Numeric(12, 2), nullable=True)
+    profit      = Column(Numeric(12, 2), nullable=True)
+    pips        = Column(Numeric(12, 2), nullable=True)
 
-    account     = relationship("TradingAccountEntity", back_populates="trades")
+    # Photo link
+    link_photo  = Column(String(150), nullable=True)
+
+    source_type = Column(Enum(SourceType), nullable=False)
+
+    user        = relationship("UserEntity", back_populates="trades")

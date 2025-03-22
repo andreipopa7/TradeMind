@@ -4,11 +4,12 @@ from sqlalchemy.orm import relationship
 from database import Base
 
 
-class Event(Base):
+class EventEntity(Base):
     __tablename__ = 'events'
 
     id              = Column(Integer, primary_key=True)
     user_id         = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+
     title           = Column(String(255), nullable=False)
     description     = Column(Text)
     category        = Column(String(50))

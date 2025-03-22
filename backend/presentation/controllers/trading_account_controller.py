@@ -114,9 +114,9 @@ def get_accounts_by_broker(broker_name: str):
 
 
 # Get all accounts
-@router.get("/api/trademind/trading_accounts/accounts/{user_email}")
-def get_user_accounts(user_email: str):
-    accounts = account_pal.get_trading_accounts(user_email)
+@router.get("/api/trademind/trading_accounts/accounts/{user_id}")
+def get_user_accounts(user_id: int):
+    accounts = account_pal.get_trading_accounts(user_id)
     if not accounts:
         raise HTTPException(status_code=404, detail="No trading accounts found for this user.")
     return accounts

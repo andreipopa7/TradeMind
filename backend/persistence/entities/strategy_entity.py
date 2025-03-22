@@ -1,12 +1,15 @@
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, Integer, String, JSON
+from sqlalchemy.orm import relationship
+
 from database import Base
 
 
-class Strategy(Base):
+class StrategyEntity(Base):
     __tablename__ = 'strategies'
 
     id          = Column(Integer, primary_key=True)
-    name        = Column(String(100), nullable=False, unique=True)
-    description = Column(Text)
-    created_by  = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
-    created_at  = Column(TIMESTAMP, default="NOW()")
+
+    name        = Column(String(50), nullable=False, unique=True)
+    parameters  = Column(JSON, nullable=True)
+
+    # backtests   = relationship("BacktestEntity", back_populates="user", cascade="all, delete-orphan")

@@ -37,5 +37,5 @@ class TradingAccountBAOInterface:
         pass
 
     # Get all accounts
-    def get_user_accounts(self, user_email: str) -> List[TradingAccountBTO]:
+    def get_user_accounts(self, user_id: int) -> List[TradingAccountBTO]:
         pass

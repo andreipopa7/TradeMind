@@ -1,33 +1,31 @@
 from sqlalchemy.orm import Session
-from persistence.dao.repositories.trade_repository import TradeRepository
-from persistence.entities.trade_entity import Trade
 from typing import List, Optional
-from datetime import datetime
+from persistence.dto.trade_dto import TradeDTO
+from persistence.dao.repositories.trade_repository import TradeRepository
+from persistence.entities.utils_entity import SourceType
 
 
 class TradeDAL:
     def __init__(self, db: Session):
         self.repo = TradeRepository(db)
 
-    # Create & delete
-    def create_trade(self, trade: Trade) -> Trade:
-        return self.repo.create_trade(trade)
+    def add_trade(self, trade_dto: TradeDTO, user_id: int) -> TradeDTO:
+        return self.repo.add_trade(trade_dto, user_id)
 
-    def delete_trade(self, trade_id: int) -> None:
-        self.repo.delete_trade(trade_id)
+    def update_trade(self, trade_id: int, updated_trade_dto: TradeDTO) -> Optional[TradeDTO]:
+        return self.repo.update_trade(trade_id, updated_trade_dto)
 
-    # Getters
-    def get_trade_by_id(self, trade_id: int) -> Optional[Trade]:
+    def delete_trade(self, trade_id: int) -> bool:
+        return self.repo.delete_trade(trade_id)
+
+    def get_trade_by_id(self, trade_id: int) -> Optional[TradeDTO]:
         return self.repo.get_trade_by_id(trade_id)
 
-    def get_trades_by_account(self, account_id: int) -> List[Trade]:
-        return self.repo.get_trades_by_account(account_id)
+    # def get_trades_by_backtest_id(self, user_id: int, backtest_id: int) -> List[TradeDTO]:
+    #     return self.repo.get_trades_by_backtest_id(user_id, backtest_id)
 
-    def get_trades_by_open_date(self, open_date: datetime) -> List[Trade]:
-        return self.repo.get_trades_by_open_date(open_date)
+    def get_trades_by_source(self, user_id: int, source: SourceType) -> List[TradeDTO]:
+        return self.repo.get_trades_by_source(user_id, source)
 
-    def get_trades_by_type(self, type: str) -> List[Trade]:
-        return self.repo.get_trades_by_type(type)
-
-    def get_trades_by_symbol(self, symbol: str) -> List[Trade]:
-        return self.repo.get_trades_by_symbol(symbol)
+    def get_trades_by_field(self, user_id: int, source: Optional[SourceType] = None, **filters) -> List[TradeDTO]:
+        return self.repo.get_trades_by_field(user_id, source, **filters)

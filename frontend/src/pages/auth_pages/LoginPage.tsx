@@ -39,7 +39,10 @@ const LoginPage: React.FC = () => {
 
             if (response.ok) {
                 const userData = await response.json();
+
+                localStorage.setItem('user_id', JSON.stringify(userData.user.id));
                 localStorage.setItem("email", userData.user.email);
+
                 setSuccessMessage(`Welcome back, ${userData.user.first_name}!`);
 
                 setTimeout(() => navigate('/home'), 2000);

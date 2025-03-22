@@ -1,22 +1,20 @@
-from persistence.entities.strategy_entity import Strategy
+from persistence.entities.strategy_entity import StrategyEntity
+from persistence.dto.strategy_dto import StrategyDTO
+
 
 class StrategyMapper:
     @staticmethod
-    def entity_to_dto(strategy: Strategy) -> dict:
-        return {
-            "id": strategy.id,
-            "name": strategy.name,
-            "description": strategy.description,
-            "created_by": strategy.created_by,
-            "created_at": strategy.created_at,
-        }
+    def entity_to_dto(strategy: StrategyEntity) -> StrategyDTO:
+        return StrategyDTO(
+            id          = strategy.id,
+            name        = strategy.name,
+            parameters  = strategy.parameters
+        )
 
     @staticmethod
-    def dto_to_entity(dto: dict) -> Strategy:
-        return Strategy(
-            id=dto.get("id"),
-            name=dto.get("name"),
-            description=dto.get("description"),
-            created_by=dto.get("created_by"),
-            created_at=dto.get("created_at"),
+    def dto_to_entity(dto: StrategyDTO) -> StrategyEntity:
+        return StrategyEntity(
+            id          = dto.id,
+            name        = dto.name,
+            parameters  = dto.parameters
         )

@@ -3,7 +3,7 @@ from typing import Optional
 class TradingAccountBTO:
     def __init__(self,
                  id: Optional[int],
-                 user_email,
+                 user_id,
 
                  broker_name,
                  account_id,
@@ -15,7 +15,7 @@ class TradingAccountBTO:
                  ):
 
         self.id = id
-        self.user_email = user_email
+        self.user_id = user_id
 
         self.broker_name = broker_name
         self.account_id = account_id

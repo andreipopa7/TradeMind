@@ -10,7 +10,7 @@ class TradingAccountPAOService(TradingAccountPAOInterface):
         self.bal = bal
 
     def request_to_bto(self, account_data: Dict) -> TradingAccountBTO:
-        if ("user_email" not in account_data
+        if ("user_id" not in account_data
                 or "broker_name" not in account_data
                 or "account_id" not in account_data
                 or "server" not in account_data
@@ -18,7 +18,7 @@ class TradingAccountPAOService(TradingAccountPAOInterface):
             raise ValueError("Missing required fields!")
         return TradingAccountBTO(
             id=None,
-            user_email=account_data["user_email"],
+            user_id=account_data["user_id"],
 
             broker_name=account_data["broker_name"],
             account_id=account_data.get("account_id", ""),
@@ -29,7 +29,7 @@ class TradingAccountPAOService(TradingAccountPAOInterface):
     def bto_to_response(self, account_bto: TradingAccountBTO) -> Dict:
         return {
             "id": account_bto.id,
-            "user_email": account_bto.user_email,
+            "user_id": account_bto.user_id,
 
             "broker_name": account_bto.broker_name,
             "account_id": account_bto.account_id,
@@ -75,6 +75,6 @@ class TradingAccountPAOService(TradingAccountPAOInterface):
         return self.bal.get_accounts_by_broker(broker_name)
 
     # Get all
-    def get_trading_accounts(self, user_email: str) -> List[dict]:
-        accounts_bto = self.bal.get_trading_accounts(user_email)
+    def get_trading_accounts(self, user_id: int) -> List[dict]:
+        accounts_bto = self.bal.get_trading_accounts(user_id)
         return [self.bto_to_response(account) for account in accounts_bto]

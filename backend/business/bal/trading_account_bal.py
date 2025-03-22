@@ -40,5 +40,5 @@ class TradingAccountBAL:
         return self.trading_account_bao.get_accounts_by_broker(broker_name)
 
     # Get all
-    def get_trading_accounts(self, user_email: str) -> List[TradingAccountBTO]:
-        return self.trading_account_bao.get_user_accounts(user_email)
+    def get_trading_accounts(self, user_id: int) -> List[TradingAccountBTO]:
+        return self.trading_account_bao.get_user_accounts(user_id)

@@ -12,15 +12,15 @@ const DashboardPage: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const userEmail = localStorage.getItem("email");
-        if (!userEmail) {
+        const user_id = localStorage.getItem("user_id");
+        if (!user_id) {
             setErrorMessage("No user email found. Please log in.");
             return;
         }
 
         const fetchAccounts = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/trademind/trading_accounts/accounts/${encodeURIComponent(userEmail)}`);
+                const response = await fetch(`http://localhost:8000/api/trademind/trading_accounts/accounts/${encodeURIComponent(user_id)}`);
 
                 if (response.status === 404) {
                     setErrorMessage("No trading accounts found.");

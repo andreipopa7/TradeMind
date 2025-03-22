@@ -6,19 +6,20 @@ class TradingAccountMapper:
     @staticmethod
     def entity_to_dto(entity: TradingAccountEntity) -> TradingAccountDTO:
         return TradingAccountDTO(
-            id=entity.id,
-            user_email=entity.user_email,
-            broker_name=entity.broker_name,
-            account_id=entity.account_id,
-            server=entity.server,
-            password=entity.password,
+            id          = entity.id,
+            user_id     = entity.user_id,
+
+            broker_name = entity.broker_name,
+            account_id  = entity.account_id,
+            server      = entity.server,
+            password    = entity.password,
         )
 
     @staticmethod
     def dto_to_entity(dto: TradingAccountDTO) -> TradingAccountEntity:
         return TradingAccountEntity(
             id          = dto.id,
-            user_email  = dto.user_email,
+            user_id     = dto.user_id,
 
             broker_name = dto.broker_name,
             account_id  = dto.account_id,

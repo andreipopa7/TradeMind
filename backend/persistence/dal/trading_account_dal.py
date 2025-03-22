@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from sqlalchemy.orm import Session
 
-from persistence.dao.repositories.trading_account_repository import TradingAccountRepository, logger
+from persistence.dao.repositories.trading_account_repository import TradingAccountRepository
 from persistence.dto.trading_account_dto import TradingAccountDTO
 from persistence.entities.trading_account_entity import TradingAccountEntity
 
