@@ -1,6 +1,8 @@
 from typing import Dict, List
+
 from business.bto.trade_bto import TradeBTO
 from persistence.entities.utils_entity import SourceType
+
 
 class TradePAOInterface:
     def request_to_bto(self, trade_data: Dict) -> TradeBTO:

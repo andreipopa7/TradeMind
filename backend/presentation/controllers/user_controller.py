@@ -77,7 +77,6 @@ class PasswordRequest(BaseModel):
     password: str
 
 
-# Funcția de obținere a utilizatorului
 @router.post("/api/trademind/users/password")
 def get_user_by_password(request: PasswordRequest):
     user_entity = user_pal.get_user_by_password(request.password)

@@ -1,0 +1,19 @@
+.instrument-table {
+    background: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.table-header, .table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: white;
+}
+
+.table-header {
+    background: #2c2c2c;
+    font-weight: bold;
+}

@@ -1,15 +1,18 @@
-from typing import Optional
+from typing import Optional, Dict
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Dict
 
 
 class StatisticDTO(BaseModel):
     id:         Optional[int]
     user_id:    int
 
-    created_at: Optional[datetime]
+    name:       str
     params:     Optional[Dict]
+    is_active:  Optional[bool] = True
+
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
 
     class Config:
         from_attributes = True

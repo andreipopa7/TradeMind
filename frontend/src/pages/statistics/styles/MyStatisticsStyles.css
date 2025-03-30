@@ -1,0 +1,96 @@
+
+.page-content h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #f0b90b;
+}
+
+.statistics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.stat-card {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 380px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    background-color: #2c2c2c;
+    box-shadow: 0 6px 12px rgba(240, 185, 11, 0.3);
+}
+
+.stat-card h3 {
+    color: #f0b90b;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.stat-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.stat-info-item {
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.stat-info-item span {
+    display: block;
+    font-weight: bold;
+    color: #f0b90b;
+}
+
+.stat-info-item p {
+    margin: 4px 0 0;
+    color: white;
+    font-size: 14px;
+}
+
+.stat-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.stat-actions button {
+    padding: 8px 14px;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.stat-actions .view-button {
+    background: #007bff;
+    color: white;
+}
+
+.stat-actions .view-button:hover {
+    background: #0056b3;
+}
+
+.stat-actions .delete-button {
+    background: #d9534f;
+    color: white;
+}
+
+.stat-actions .delete-button:hover {
+    background: #d8232f;
+}

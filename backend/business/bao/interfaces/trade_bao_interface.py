@@ -1,4 +1,5 @@
 from typing import List, Optional
+
 from business.bto.trade_bto import TradeBTO
 from persistence.entities.utils_entity import SourceType
 

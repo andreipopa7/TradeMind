@@ -1,27 +1,26 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import LoginPage from './pages/auth_pages/LoginPage';
 import RegisterPage from './pages/auth_pages/RegisterPage';
 import HomePage from './pages/home_page/HomePage';
 import EditAccountPage from "./pages/edit_user_account/EditAccountPage";
 import AddAccount from "./pages/trading_accounts_pages/add_new_account/AddAccount";
-// import NewBacktesting from "./pages/backtesting_pages/NewBacktesting";
-// import CustomStrategy from "./pages/backtesting_pages/CustomStrategy";
 import HelpPage from "./pages/help_page/HelpPage";
 import EconomicCalendarPage from "./pages/economic_calendar_pages/EconomicCalendarPage";
-
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import DashboardPage from "./pages/trading_accounts_pages/view_accounts/DashboardPage";
 import AccountDashboard from "./pages/trading_accounts_pages/view_accounts/AccountDasboard";
 import MyTradesPage from "./pages/statistics/MyTradesPage";
+import MyStatisticsPage from "./pages/statistics/MyStatisticsPage";
+import MyStatisticDashboardPage from "./pages/statistics/MyStatisticDashboardPage";
 
 
 function App() {
     return (
         <Router>
             <Routes>
-                {/* pagina implicită este Login */}
+                {/* pagina implicita este Login */}
                 <Route path="/" element={<Navigate to="/login" />} />
 
                 {/* Auth pages */}
@@ -38,8 +37,9 @@ function App() {
 
                 {/* Statistics pages */}
                 <Route path="/statistics/my_trades" element={<MyTradesPage />} />
-                {/*<Route path="/statistics/my_statistics" element={< />} />*/}
-                {/*<Route path="/statistics/my_statistics/:statistic_id" element={< />} />*/}
+                <Route path="/statistics/my_statistics" element={<MyStatisticsPage/>} />
+                <Route path="/statistics/my_statistics/:statisticId" element={<MyStatisticDashboardPage />} />
+
                 {/*<Route path="/statistics/new_statistic" element={<ViewStatisticsPage />} />*/}
 
                 {/* Backtesting pages */}

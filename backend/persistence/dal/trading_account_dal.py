@@ -19,8 +19,8 @@ class TradingAccountDAL:
         self.repo.delete_trading_account(account_id)
 
     # Get all accounts
-    def get_user_accounts(self, user_email: str) -> List[TradingAccountDTO]:
-        return self.repo.get_user_accounts(user_email)
+    def get_user_accounts(self, user_id: int) -> List[TradingAccountDTO]:
+        return self.repo.get_user_accounts(user_id)
 
     # Getters
     def get_account_by_id(self, account_id: int) -> Optional[TradingAccountEntity]:

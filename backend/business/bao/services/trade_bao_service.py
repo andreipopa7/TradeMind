@@ -1,5 +1,6 @@
 from datetime import time, datetime
 from typing import List, Optional
+
 from business.bto.trade_bto import TradeBTO
 from business.mappers.trade_mapper import TradeMapper
 from persistence.dal.trade_dal import TradeDAL
@@ -74,6 +75,8 @@ class TradeBAOService(TradeBAOInterface):
     def __init__(self, trade_dal: TradeDAL):
         self.dal = trade_dal
 
+
+    # Create & Delete
     def add_trade(self, trade_bto: TradeBTO) -> TradeBTO:
         is_valid_time_and_date(trade_bto)
         is_valid_price(trade_bto)
@@ -85,38 +88,92 @@ class TradeBAOService(TradeBAOInterface):
         saved_trade_dto = self.dal.add_trade(trade_dto, trade_bto.user_id)
         return TradeMapper.dto_to_bto(saved_trade_dto)
 
+    def delete_trade(self, trade_id: int) -> bool:
+        return self.dal.delete_trade(trade_id)
+
+
+    # Getters
     def get_trades_by_user(self, user_id: int) -> List[TradeBTO]:
         trade_dtos = self.dal.get_trades_by_source(user_id, source=SourceType.USER)
         return [TradeMapper.dto_to_bto(trade) for trade in trade_dtos]
 
+    # def get_trades_by_field(self, user_id: int, source: Optional[SourceType] = None, **filters) -> List[TradeBTO]:
+    #     processed_filters = {}
+    #
+    #     if filters.get("market"):
+    #         processed_filters["market"] = filters["market"]
+    #
+    #     if filters.get("type"):
+    #         processed_filters["type"] = filters["type"]
+    #
+    #     if filters.get("open_date"):
+    #         processed_filters["open_date"] = filters["open_date"]
+    #
+    #     if filters.get("close_date"):
+    #         processed_filters["close_date"] = filters["close_date"]
+    #
+    #     if filters.get("session"):
+    #         processed_filters["session"] = filters["session"]
+    #
+    #     if filters.get("profit_filter"):
+    #         if filters["profit_filter"] == "win":
+    #             processed_filters["profit__gte"] = 0
+    #
+    #         elif filters["profit_filter"] == "lose":
+    #             processed_filters["profit__lt"] = 0
+    #
+    #     trade_dtos = self.dal.get_trades_by_field(user_id, source, **processed_filters)
+    #     return [TradeMapper.dto_to_bto(trade) for trade in trade_dtos]
+
     def get_trades_by_field(self, user_id: int, source: Optional[SourceType] = None, **filters) -> List[TradeBTO]:
         processed_filters = {}
 
-        if filters.get("market"):
+        # Market list
+        if "market" in filters:
             processed_filters["market"] = filters["market"]
 
-        if filters.get("type"):
+        # Type (BUY / SELL)
+        if "type" in filters:
             processed_filters["type"] = filters["type"]
 
-        if filters.get("open_date"):
-            processed_filters["open_date"] = filters["open_date"]
+        # Date interval
+        if "start_date" in filters and "end_date" in filters:
+            processed_filters["open_date__range"] = (filters["start_date"], filters["end_date"])
+        elif "start_date" in filters:
+            processed_filters["open_date__gte"] = filters["start_date"]
+        elif "end_date" in filters:
+            processed_filters["open_date__lte"] = filters["end_date"]
 
-        if filters.get("close_date"):
-            processed_filters["close_date"] = filters["close_date"]
+        # Volume interval
+        if "min_volume" in filters:
+            processed_filters["volume__gte"] = filters["min_volume"]
+        if "max_volume" in filters:
+            processed_filters["volume__lte"] = filters["max_volume"]
 
-        if filters.get("session"):
+        # Session list
+        if "session" in filters:
             processed_filters["session"] = filters["session"]
 
+        # Source
+        if "source_type" in filters:
+            processed_filters["source_type"] = filters["source_type"]
+
+        # Profit filters (e.g. win/lose)
         if filters.get("profit_filter"):
             if filters["profit_filter"] == "win":
-                processed_filters["profit__gte"] = 0
+                processed_filters["profit__gt"] = 0
 
             elif filters["profit_filter"] == "lose":
                 processed_filters["profit__lt"] = 0
 
+            elif filters["profit_filter"] == "be":
+                processed_filters["profit"] = 0
+
         trade_dtos = self.dal.get_trades_by_field(user_id, source, **processed_filters)
         return [TradeMapper.dto_to_bto(trade) for trade in trade_dtos]
 
+
+    # Setters
     def update_trade(self, trade_id: int, updated_trade_bto: TradeBTO) -> Optional[TradeBTO]:
         is_valid_time_and_date(updated_trade_bto)
         is_valid_price(updated_trade_bto)
@@ -127,5 +184,3 @@ class TradeBAOService(TradeBAOInterface):
         result_dto = self.dal.update_trade(trade_id, updated_trade_dto)
         return TradeMapper.dto_to_bto(result_dto) if result_dto else None
 
-    def delete_trade(self, trade_id: int) -> bool:
-        return self.dal.delete_trade(trade_id)

@@ -1,4 +1,5 @@
 from typing import Dict, List
+
 from presentation.pao.interfaces.trade_pao_interface import TradePAOInterface
 from business.bal.trade_bal import TradeBAL
 from business.bto.trade_bto import TradeBTO

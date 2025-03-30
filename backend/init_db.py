@@ -6,6 +6,7 @@ from persistence.entities.trading_account_entity import TradingAccountEntity
 from persistence.entities.trade_entity import TradeEntity
 from persistence.entities.backtest_entity import BacktestEntity
 from persistence.entities.strategy_entity import StrategyEntity
+from persistence.entities.statistic_entity import StatisticEntity
 
 # from persistence.entities.event_entity import EventEntity
 

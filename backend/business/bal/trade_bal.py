@@ -1,7 +1,8 @@
+from typing import List, Optional
+
 from business.bto.trade_bto import TradeBTO
 from business.bao.services.trade_bao_service import TradeBAOService
 from persistence.entities.utils_entity import SourceType
-from typing import List, Optional
 
 
 class TradeBAL:

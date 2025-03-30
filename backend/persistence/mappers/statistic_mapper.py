@@ -8,8 +8,11 @@ class StatisticMapper:
         return StatisticDTO(
             id          = statistic.id,
             user_id     = statistic.user_id,
+            name        = statistic.name,
+            params      = statistic.params,
+            is_active   = statistic.is_active,
             created_at  = statistic.created_at,
-            params      = statistic.params
+            updated_at  = statistic.updated_at
         )
 
     @staticmethod
@@ -17,6 +20,9 @@ class StatisticMapper:
         return StatisticEntity(
             id          = dto.id,
             user_id     = dto.user_id,
+            name        = dto.name,
+            params      = dto.params,
+            is_active   = dto.is_active,
             created_at  = dto.created_at,
-            params      = dto.params
+            updated_at  = dto.updated_at
         )

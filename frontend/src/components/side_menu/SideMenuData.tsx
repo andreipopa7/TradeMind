@@ -20,7 +20,7 @@ export const SideMenuData: SidebarItem[] = [
         cName: "side-menu-text",
     },
     {
-        title: "**Accounts",
+        title: "** Trading Accounts",
         path: "#",
         icon: <IoPeople />,
         cName: "side-menu-text",
@@ -31,7 +31,7 @@ export const SideMenuData: SidebarItem[] = [
                 icon: <AiOutlineAppstore />,
             },
             {
-                title: "Your Accounts",
+                title: "My Accounts",
                 path: "/accounts/dashboard",
                 icon: <BsListCheck />,
             },

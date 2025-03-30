@@ -5,6 +5,7 @@ import uvicorn
 from presentation.controllers.user_controller import router as user_router
 from presentation.controllers.trading_account_controller import router as accounts_router
 from presentation.controllers.trade_controller import router as trade_router
+from presentation.controllers.statistic_controller import router as statistic_router
 
 app = FastAPI()
 
@@ -24,6 +25,7 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(accounts_router)
 app.include_router(trade_router)
+app.include_router(statistic_router)
 
 
 if __name__ == "__main__":

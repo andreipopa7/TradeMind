@@ -1,0 +1,18 @@
+.stat-explanation-box {
+    background-color: #1e1e1e;
+    color: #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.stat-explanation-box h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.stat-explanation-box p {
+    line-height: 1.6;
+    font-size: 15px;
+}
