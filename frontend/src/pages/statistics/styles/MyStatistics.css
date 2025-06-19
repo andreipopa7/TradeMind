@@ -94,3 +94,21 @@
 .stat-actions .delete-button:hover {
     background: #d8232f;
 }
+
+
+.add-new-button {
+    background-color: #f0b90b;
+    color: #1e1e1e;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-new-button:hover {
+    background-color: #d9a500;
+}
+

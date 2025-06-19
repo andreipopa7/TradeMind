@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Home Page</h1>
+                    <h1>Home - Update soon...</h1>
 
                 </div>
             </div>

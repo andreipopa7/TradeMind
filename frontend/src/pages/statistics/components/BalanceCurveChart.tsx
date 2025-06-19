@@ -9,7 +9,7 @@ import {
     CartesianGrid,
     Legend,
 } from 'recharts';
-import '../styles/BalanceCurveChartStyles.css';
+import '../styles/BalanceCurveChart.css';
 
 interface BalanceCurveChartProps {
     data: { trade: number; balance: number }[];

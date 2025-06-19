@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './styles/MyStatisticDashboardPageStyles.css';
+import './styles/MyStatisticDashboardPage.css';
 import NavBar from "../../components/nav_bar/NavBar";
 import SideMenu from "../../components/side_menu/SideMenu";
 import GeneralStats from '../statistics/components/GeneralStats';
@@ -11,6 +11,7 @@ import ResultsByDay from '../statistics/components/ResultsByDay';
 import ResultsByDuration from '../statistics/components/ResultsByDuration';
 import StatExplanationBox from "./components/StatExplanationBox";
 import StatBoxWrapper from "./components/StatBoxWrapper";
+
 
 const MyStatisticDashboardPage: React.FC = () => {
     const { statisticId } = useParams();
@@ -46,73 +47,74 @@ const MyStatisticDashboardPage: React.FC = () => {
                 <div className="page-content">
                     <h2>📊 {result.statistic_name}</h2>
 
-                    <StatBoxWrapper title="📌 General Statistics">
-                        <StatExplanationBox title="Account Analysis">
-                            During this evaluation, a total of <strong>{result.metrics.total_trades}</strong> trades were executed.
-                            The overall winrate is <strong>{result.metrics.winrate}%</strong> and the average risk-reward ratio stands at
-                            <strong>{result.metrics.avg_rr}</strong>. Profitability metrics show an average gain of
-                            <strong>${result.metrics.avg_profit}</strong> per winning trade, while the average loss per losing trade is
-                            <strong>${result.metrics.avg_loss}</strong>.
-                        </StatExplanationBox>
+                        <StatBoxWrapper title="📊 Performance Overview">
+                            <StatExplanationBox title="General Statistics Summary">
+                                Summary of trade results, win rate, risk/reward, and profitability.
+                            </StatExplanationBox>
+                            <GeneralStats metrics={result.metrics} />
+                            <BalanceCurveChart data={result.metrics.balance_curve} />
+                        </StatBoxWrapper>
 
-                        <GeneralStats metrics={result.metrics} />
-
-                        <BalanceCurveChart data={result.metrics.balance_curve} />
-                    </StatBoxWrapper>
-
-                    <StatBoxWrapper title="Long vs Short Comparison">
-                        <StatExplanationBox title="">
-                            You've executed <strong>{result.metrics.long_stats.count}</strong> long trades and
-                            <strong>{result.metrics.short_stats.count}</strong> short trades. Long trades resulted in a total profit of
-                            <strong>${result.metrics.long_stats.profit}</strong> and a winrate of
-                            <strong>{result.metrics.long_stats.winrate}%</strong>.
-                            Meanwhile, short trades accumulated <strong>${result.metrics.short_stats.profit}</strong> with a winrate of
-                            <strong>{result.metrics.short_stats.winrate}%</strong>. This breakdown reveals which direction performed better.
-                        </StatExplanationBox>
+                        <StatBoxWrapper title="Long vs Short Comparison">
+                            <StatExplanationBox title="">
+                                You've executed <strong>{result.metrics.long_stats.count}</strong> long trades and
+                                <strong>{result.metrics.short_stats.count}</strong> short trades. Long trades resulted
+                                in a total profit of
+                                <strong>${result.metrics.long_stats.profit}</strong> and a winrate of
+                                <strong>{result.metrics.long_stats.winrate}%</strong>.
+                                Meanwhile, short trades
+                                accumulated <strong>${result.metrics.short_stats.profit}</strong> with a winrate of
+                                <strong>{result.metrics.short_stats.winrate}%</strong>. This breakdown reveals which
+                                direction performed better.
+                            </StatExplanationBox>
 
 
-                        <LongVsShortStats
-                            longStats={result.metrics?.long_stats || { count: 0, profit: 0, winrate: 0 }}
-                            shortStats={result.metrics?.short_stats || { count: 0, profit: 0, winrate: 0 }}
-                        />
-                    </StatBoxWrapper>
+                            <LongVsShortStats
+                                longStats={result.metrics?.long_stats || {count: 0, profit: 0, winrate: 0}}
+                                shortStats={result.metrics?.short_stats || {count: 0, profit: 0, winrate: 0}}
+                            />
+                        </StatBoxWrapper>
 
-                    <StatBoxWrapper title="Performance by Instrument">
-                        <StatExplanationBox title="">
-                            This section analyzes your trading performance across different instruments.
-                            You traded a total of <strong>{result.metrics.by_instrument.length}</strong> markets.
-                            Each market displays its number of trades and total profit/loss, offering insights into which instruments contributed
-                            most to your overall performance.
-                        </StatExplanationBox>
+                        <StatBoxWrapper title="Performance by Instrument">
+                            <StatExplanationBox title="">
+                                This section analyzes your trading performance across different instruments.
+                                You traded a total of <strong>{result.metrics.by_instrument.length}</strong> markets.
+                                Each market displays its number of trades and total profit/loss, offering insights into
+                                which instruments contributed
+                                most to your overall performance.
+                            </StatExplanationBox>
 
-                        <ResultsByInstrument data={result.metrics?.by_instrument || []} />
-                    </StatBoxWrapper>
-
-
-                    <StatBoxWrapper title="Performance by Day">
-                        <StatExplanationBox title="">
-                            This breakdown shows how trades performed based on the day they were opened.
-                            Identifying profitable days can help you spot weekly behavioral or volatility patterns in your strategy.
-                        </StatExplanationBox>
-
-                        <ResultsByDay data={result.metrics?.by_day || []} />
-                    </StatBoxWrapper>
+                            <ResultsByInstrument data={result.metrics?.by_instrument || []}/>
+                        </StatBoxWrapper>
 
 
-                    <StatBoxWrapper title="Performance by Trade Duration">
-                        <StatExplanationBox title="">
-                            The table below segments your trades by duration. Each range reflects how long trades were held and the
-                            associated results. This is particularly useful to understand whether your strategy benefits from short-term
-                            or long-term setups.
-                        </StatExplanationBox>
+                        <StatBoxWrapper title="Performance by Day">
+                            <StatExplanationBox title="">
+                                This breakdown shows how trades performed based on the day they were opened.
+                                Identifying profitable days can help you spot weekly behavioral or volatility patterns
+                                in your strategy.
+                            </StatExplanationBox>
 
-                        <ResultsByDuration data={result.metrics?.by_duration || []} />
-                    </StatBoxWrapper>
+                            <ResultsByDay data={result.metrics?.by_day || []}/>
+                        </StatBoxWrapper>
+
+
+                        <StatBoxWrapper title="Performance by Trade Duration">
+                            <StatExplanationBox title="">
+                                The table below segments your trades by duration. Each range reflects how long trades
+                                were held and the
+                                associated results. This is particularly useful to understand whether your strategy
+                                benefits from short-term
+                                or long-term setups.
+                            </StatExplanationBox>
+
+                            <ResultsByDuration data={result.metrics?.by_duration || []}/>
+                        </StatBoxWrapper>
 
                 </div>
             </div>
         </div>
-    );
+);
 };
 
 export default MyStatisticDashboardPage;

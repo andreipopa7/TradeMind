@@ -1,0 +1,28 @@
+body.dark {
+    --bg-color: #121212;
+    --box-color: #1e1e1e;
+    --box-color-alt: #2a2a2a;
+    --text-color: #e0e0e0;
+    --text-color-secondary: #aaa;
+    --accent: #00e676;
+    --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    --border: rgba(255, 255, 255, 0.07);
+}
+
+body.light {
+    --bg-color: #f5f7fb;
+    --box-color: #ffffff;
+    --box-color-alt: #f0f0f0;
+    --text-color: #222222;
+    --text-color-secondary: #555;
+    --accent: #00e676;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --border: #121212;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}

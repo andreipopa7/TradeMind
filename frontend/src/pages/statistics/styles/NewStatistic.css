@@ -1,0 +1,55 @@
+.page-content h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #f0b90b;
+}
+
+.new-stat-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: white;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.volume-range {
+    display: flex;
+    gap: 10px;
+}
+
+.volume-range input {
+    flex: 1;
+}
+
+.add-new-button {
+    background-color: #f0b90b;
+    color: #1e1e1e;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-new-button:hover {
+    background-color: #d9a500;
+}

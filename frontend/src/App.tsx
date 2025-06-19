@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import LoginPage from './pages/auth_pages/LoginPage';
 import RegisterPage from './pages/auth_pages/RegisterPage';
 import HomePage from './pages/home_page/HomePage';
-import EditAccountPage from "./pages/edit_user_account/EditAccountPage";
+import SettingsPage from "./pages/settings_page/SettingsPage";
 import AddAccount from "./pages/trading_accounts_pages/add_new_account/AddAccount";
 import HelpPage from "./pages/help_page/HelpPage";
 import EconomicCalendarPage from "./pages/economic_calendar_pages/EconomicCalendarPage";
@@ -14,6 +14,10 @@ import AccountDashboard from "./pages/trading_accounts_pages/view_accounts/Accou
 import MyTradesPage from "./pages/statistics/MyTradesPage";
 import MyStatisticsPage from "./pages/statistics/MyStatisticsPage";
 import MyStatisticDashboardPage from "./pages/statistics/MyStatisticDashboardPage";
+import NewStatisticPage from "./pages/statistics/NewStatisticPage";
+import BacktestingPage from "./pages/backtesting_pages/BacktestingPage";
+import InboxPage from "./pages/inbox/InboxPage";
+import PersonalCalendarPage from "./pages/personal_calendar_pages/PersonalCalendarPage";
 
 
 function App() {
@@ -28,7 +32,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
 
                 <Route path="/home" element={<HomePage />} />
-                <Route path="/edit-credentials" element={<EditAccountPage />} />
+                <Route path="/edit-credentials" element={<SettingsPage />} />
 
                 {/* Trading accounts pages*/}
                 <Route path="/accounts/add" element={<AddAccount />} />
@@ -39,16 +43,17 @@ function App() {
                 <Route path="/statistics/my_trades" element={<MyTradesPage />} />
                 <Route path="/statistics/my_statistics" element={<MyStatisticsPage/>} />
                 <Route path="/statistics/my_statistics/:statisticId" element={<MyStatisticDashboardPage />} />
-
-                {/*<Route path="/statistics/new_statistic" element={<ViewStatisticsPage />} />*/}
+                <Route path="/statistics/new_statistic" element={<NewStatisticPage />} />
 
                 {/* Backtesting pages */}
-                {/*<Route path="/backtesting/new-session" element={<NewBacktesting />} />*/}
-                {/*<Route path="/backtesting/custom-strategy" element={<CustomStrategy />} />*/}
+                <Route path="/backtesting/new-session" element={<BacktestingPage />} />
 
                 {/* Other pages */}
                 <Route path="/economic-calendar" element={<EconomicCalendarPage />} />
+                <Route path="personal-calendar" element={<PersonalCalendarPage />} />
+                <Route path="/inbox" element={<InboxPage />} />
                 <Route path="/help" element={<HelpPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
 
             </Routes>
         </Router>

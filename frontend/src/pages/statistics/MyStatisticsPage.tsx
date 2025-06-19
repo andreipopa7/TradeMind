@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styles/MyStatisticsStyles.css';
+import './styles/MyStatistics.css';
 import NavBar from "../../components/nav_bar/NavBar";
 import SideMenu from "../../components/side_menu/SideMenu";
 
@@ -36,6 +36,16 @@ const MyStatisticsPage: React.FC = () => {
                 </div>
                 <div className="page-content">
                     <h2>My Statistics</h2>
+
+                    <div style={{textAlign: 'center', marginBottom: '20px'}}>
+                        <button
+                            onClick={() => navigate("/statistics/new_statistic")}
+                            className="add-new-button"
+                        >
+                            Add New Statistic
+                        </button>
+                    </div>
+                    
                     <div className="statistics-grid">
                         {statistics.map((stat) => (
                             <div key={stat.id} className="stat-card">
@@ -51,7 +61,8 @@ const MyStatisticsPage: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="stat-actions">
-                                    <button className="view-button" onClick={() => handleCardClick(stat.id)}>View</button>
+                                    <button className="view-button" onClick={() => handleCardClick(stat.id)}>View
+                                    </button>
                                     <button className="delete-button">Delete</button>
                                 </div>
                             </div>

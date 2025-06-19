@@ -1,5 +1,7 @@
 import React from 'react';
 import '../styles/ResultsByDay.css';
+import { CalendarDays, DollarSign } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface DayStat {
     day: string;
@@ -11,16 +13,41 @@ interface ResultsByDayProps {
     data: DayStat[];
 }
 
+const DayCard = ({
+                     day,
+                     profit,
+                     trades
+                 }: {
+    day: string;
+    profit: number;
+    trades: number;
+}) => (
+    <motion.div
+        whileHover={{ scale: 1.03 }}
+        className={`day-card redesigned ${profit >= 0 ? 'positive' : 'negative'}`}
+    >
+        <div className="icon-wrapper">
+            <CalendarDays size={18} />
+        </div>
+        <span className="stat-label">{day}</span>
+        <span className="stat-value">{trades} trades</span>
+        <div className="profit-row">
+            <span className="stat-value">${profit.toFixed(2)}</span>
+        </div>
+    </motion.div>
+);
+
 const ResultsByDay: React.FC<ResultsByDayProps> = ({ data }) => {
     return (
         <div className="dashboard-section">
             <div className="day-grid">
                 {data.map((item, index) => (
-                    <div className="day-card" key={index}>
-                        <h4>{item.day}</h4>
-                        <p>Trades: {item.trades}</p>
-                        <p>Profit: ${item.profit.toFixed(2)}</p>
-                    </div>
+                    <DayCard
+                        key={index}
+                        day={item.day}
+                        trades={item.trades}
+                        profit={item.profit}
+                    />
                 ))}
             </div>
         </div>

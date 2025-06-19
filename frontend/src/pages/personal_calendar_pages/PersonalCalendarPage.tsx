@@ -1,8 +1,10 @@
 import React from 'react';
 import NavBar from '../../components/nav_bar/NavBar';
 import SideMenu from '../../components/side_menu/SideMenu';
+import '../../styles/GlobalStyles.css';
+import './PersonalCalendarStyles.css';
 
-const HelpPage: React.FC = () => {
+const PersonalCalendsarPage: React.FC = () => {
     return (
         <div className="home-page">
             <NavBar />
@@ -13,7 +15,7 @@ const HelpPage: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Help - Update soon...</h1>
+                    <h1>PersonalCalendar - Update soon...</h1>
 
                 </div>
             </div>
@@ -21,4 +23,4 @@ const HelpPage: React.FC = () => {
     );
 };
 
-export default HelpPage;
+export default PersonalCalendsarPage;

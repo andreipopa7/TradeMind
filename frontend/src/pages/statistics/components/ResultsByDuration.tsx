@@ -1,5 +1,7 @@
 import React from 'react';
 import '../styles/ResultsByDuration.css';
+import { Clock4 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface DurationStat {
     range: string;
@@ -11,16 +13,28 @@ interface ResultsByDurationProps {
     data: DurationStat[];
 }
 
+const DurationCard = ({ range, trades, profit }: DurationStat) => (
+    <motion.div
+        whileHover={{ scale: 1.03 }}
+        className={`duration-card redesigned ${profit >= 0 ? 'positive' : 'negative'}`}
+    >
+        <div className="icon-wrapper">
+            <Clock4 size={18} />
+        </div>
+        <span className="stat-label">{range}</span>
+        <span className="stat-value">{trades} trades</span>
+        <span className="stat-value">
+            {profit >= 0 ? '+' : '-'}${Math.abs(profit).toFixed(2)}
+        </span>
+    </motion.div>
+);
+
 const ResultsByDuration: React.FC<ResultsByDurationProps> = ({ data }) => {
     return (
         <div className="dashboard-section">
             <div className="duration-grid">
                 {data.map((item, index) => (
-                    <div className="duration-card" key={index}>
-                        <h4>{item.range}</h4>
-                        <p>Trades: {item.trades}</p>
-                        <p>Profit: ${item.profit.toFixed(2)}</p>
-                    </div>
+                    <DurationCard key={index} {...item} />
                 ))}
             </div>
         </div>

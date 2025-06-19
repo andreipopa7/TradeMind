@@ -3,7 +3,7 @@ import '../../styles/GlobalStyles.css';
 import NavBar from '../../components/nav_bar/NavBar';
 import SideMenu from "../../components/side_menu/SideMenu";
 
-const EditAccountPage: React.FC = () => {
+const SettingsPage: React.FC = () => {
 
     return (
         <div className="home-page">
@@ -15,12 +15,11 @@ const EditAccountPage: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Edi Account Page</h1>
-                    <p>Acesta este conținutul principal al paginii.</p>
+                    <h1>Settings - Update soon...</h1>
                 </div>
             </div>
         </div>
     );
 };
 
-export default EditAccountPage;
+export default SettingsPage;
