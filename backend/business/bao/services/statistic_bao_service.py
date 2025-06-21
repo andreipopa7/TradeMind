@@ -83,13 +83,10 @@ class StatisticBAOService(StatisticBAOInterface):
         params = bto.params or {}
         filters = parse_statistic_params(params)
 
-        trades: List[TradeBTO] = self.trade_service.get_trades_by_field(bto.user_id, **filters)
+        trades = self.trade_service.get_trades_by_field(bto.user_id, **filters)
 
         result = self._calculate_metrics(trades, bto.name, filters)
         return result
-
-    from collections import defaultdict
-    from datetime import datetime
 
     def _calculate_metrics(self, trades: List[TradeBTO], name: str, filters: dict) -> dict:
         total = len(trades)

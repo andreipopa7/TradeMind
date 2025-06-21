@@ -3,12 +3,12 @@ import {Link, useNavigate} from 'react-router-dom';
 import '../../styles/GlobalStyles.css';
 import './AuthStyles.css';
 
+
 const LoginPage: React.FC = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
@@ -59,7 +59,7 @@ const LoginPage: React.FC = () => {
         <div className="page-container">
             <div className="left-section">
                 <img
-                    src={'../images/login.jpg'}
+                    src={"/loginImage.jpg"}
                     alt="Login Illustration"
                     className="login-image"
                 />

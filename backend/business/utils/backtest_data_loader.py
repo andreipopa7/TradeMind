@@ -45,7 +45,9 @@ class AlphaVantageLoader:
 
 
 class YahooFinanceLoader:
-    def get_historical_data(self, symbol: str, interval: str = "1m", start: str = None, end: str = None):
+    def get_historical_data(self, symbol: str, interval: str = "1m", start: str = None, end: str = None) -> tuple[pd.DataFrame, list[dict]]:
+        from datetime import datetime
+
         interval_mapping = {
             "1min": "1m",
             "5min": "5m",
@@ -64,7 +66,19 @@ class YahooFinanceLoader:
             start_date = start
             end_date = end
 
+        if yf_interval in ["1m", "5m", "15m", "30m", "60m"]:
+            start_dt = datetime.strptime(start_date, "%Y-%m-%d")
+            end_dt = datetime.strptime(end_date, "%Y-%m-%d")
+            delta_days = (end_dt - start_dt).days
+
+            if delta_days > 7:
+                raise ValueError(f"Yahoo Finance allows max 7 days of {yf_interval} data. "
+                                 f"Try reducing the date range or use 'daily' interval.")
+
         df = yf.download(symbol, start=start_date, end=end_date, interval=yf_interval)
+
+        if df.empty:
+            raise ValueError(f"No data found for {symbol}")
 
         df = df.rename(columns={
             "Open": "open",
@@ -76,7 +90,19 @@ class YahooFinanceLoader:
 
         df.index = pd.to_datetime(df.index)
         df = df.sort_index()
-        return df
+
+        candles = [
+            {
+                "time": int(ts.timestamp()),
+                "open": row["open"],
+                "high": row["high"],
+                "low": row["low"],
+                "close": row["close"]
+            }
+            for ts, row in df.iterrows()
+        ]
+
+        return df, candles
 
 
 class BinanceLoader:
@@ -114,7 +140,8 @@ class BinanceLoader:
 
             response = requests.get(self.BASE_URL, params=params)
             if response.status_code != 200:
-                raise Exception(f"Binance API error: {response.status_code}")
+                msg = response.json().get("msg", "")
+                raise Exception(f"Binance API error: {response.status_code} - {msg}")
 
             data = response.json()
             if not data:
@@ -135,8 +162,6 @@ class BinanceLoader:
             last_time = data[-1][0]
             start_ts = last_time + 1
 
-        # return df_all.sort_index()
-
         df_all = df_all.sort_index()
 
         candles = [
@@ -151,3 +176,27 @@ class BinanceLoader:
         ]
 
         return df_all, candles
+
+
+class UniversalDataLoader:
+    SYMBOL_MAPPING = {
+        "EURUSD": "EURUSD=X",
+        "GBPUSD": "GBPUSD=X",
+        "USDJPY": "USDJPY=X",
+        "GER40": "^GDAXI",
+        "UK100": "^FTSE",
+        "US100": "^NDX",
+        "US30": "^DJI",
+        "BTCUSDT": "BTCUSDT",
+        "ETHUSDT": "ETHUSDT"
+    }
+
+    @classmethod
+    def get_loader_and_symbol(cls, symbol: str):
+        symbol_upper = symbol.upper()
+        mapped_symbol = cls.SYMBOL_MAPPING.get(symbol_upper, symbol_upper)
+
+        if symbol_upper in ["BTCUSDT", "ETHUSDT"]:
+            return BinanceLoader(), mapped_symbol
+        else:
+            return YahooFinanceLoader(), mapped_symbol

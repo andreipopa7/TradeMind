@@ -80,8 +80,8 @@ const NewStatisticPage: React.FC = () => {
                             <label>Source Type:</label>
                             <select onChange={(e) => setParams({...params, source_type: e.target.value})}>
                                 <option value="">-- select source --</option>
-                                <option value="manual">Manual</option>
-                                <option value="bot">Bot</option>
+                                <option value="user">USER</option>
+                                <option value="backtest">BACKTEST</option>
                             </select>
                         </div>
 

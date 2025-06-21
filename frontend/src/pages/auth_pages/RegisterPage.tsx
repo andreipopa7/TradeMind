@@ -73,7 +73,7 @@ const RegisterPage: React.FC = () => {
         <div className="page-container">
             <div className="left-section">
                 <img
-                    src={"../images/loginImage.jpg"}
+                    src={"/loginImage.jpg"}
                     alt="Login Illustration"
                     className="login-image"
                 />

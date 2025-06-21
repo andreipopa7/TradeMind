@@ -22,6 +22,7 @@ class UserEntity(Base):
     trading_accounts    = relationship("TradingAccountEntity",  back_populates="user", cascade="all, delete-orphan")
     trades              = relationship("TradeEntity",           back_populates="user", cascade="all, delete-orphan")
     backtests           = relationship("BacktestEntity",        back_populates="user", cascade="all, delete-orphan")
-    statistics          = relationship("StatisticEntity",      back_populates="user", cascade="all, delete-orphan")
+    strategies          = relationship("StrategyEntity",        back_populates="user", cascade="all, delete-orphan")
+    statistics          = relationship("StatisticEntity",       back_populates="user", cascade="all, delete-orphan")
 
     # events              = relationship("EventEntity", back_populates="user", cascade="all, delete-orphan")

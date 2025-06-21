@@ -11,6 +11,7 @@ class StatisticPAOService(StatisticPAOInterface):
     # --------------------------- MAPPERS ---------------------------
 
     def request_to_bto(self, data: Dict) -> StatisticBTO:
+        print("📥 Received data for generate_statistics:", data)  # <- aici
         if "user_id" not in data or "name" not in data:
             raise ValueError("Missing required fields: 'user_id' and 'name' are required.")
 

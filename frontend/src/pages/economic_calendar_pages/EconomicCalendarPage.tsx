@@ -49,7 +49,6 @@ const EconomicCalendarPage: React.FC = () => {
                 <div className="calendar-content">
                     <h1>Economic Calendar</h1>
 
-                    {/* Selector pentru calendar */}
                     <div className="calendar-selector">
                         <label htmlFor="calendar">Choose a calendar:</label>
                         <select
@@ -65,7 +64,6 @@ const EconomicCalendarPage: React.FC = () => {
                         </select>
                     </div>
 
-                    {/* Afișare calendar în funcție de selecție */}
                     <div className="calendar-iframe-container">
                         {selectedCalendar === "TradingView" ? (
                             <div id="tradingview-container" className="tradingview-widget-container">

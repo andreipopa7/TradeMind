@@ -28,7 +28,7 @@ const MyStatisticDashboardPage: React.FC = () => {
                 body: JSON.stringify(statData),
             });
             const genData = await genRes.json();
-            console.log(genData);
+            console.log("📈 genData.metrics:", genData?.metrics);
             setResult(genData);
         };
 
@@ -52,7 +52,7 @@ const MyStatisticDashboardPage: React.FC = () => {
                                 Summary of trade results, win rate, risk/reward, and profitability.
                             </StatExplanationBox>
                             <GeneralStats metrics={result.metrics} />
-                            <BalanceCurveChart data={result.metrics.balance_curve} />
+                            <BalanceCurveChart data={result?.metrics?.balance_curve || []} />
                         </StatBoxWrapper>
 
                         <StatBoxWrapper title="Long vs Short Comparison">

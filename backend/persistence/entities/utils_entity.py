@@ -14,7 +14,7 @@ class SourceType(PyEnum):
 class SessionType(PyEnum):
     ASIA     = "Asia"
     LONDON   = "London"
-    NEW_YORK = "New York"
+    NEW_YORK = "NewYork"
     UNKNOWN = "Unknown"
 
 

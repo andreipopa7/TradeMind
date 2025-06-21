@@ -1,13 +1,62 @@
-from fastapi import APIRouter
-from business.bto.backtest_bto import BacktestRequestBTO, BacktestResultBTO
-from business.bao.services.backtest_bao_service import BacktestService
+from fastapi import APIRouter, HTTPException
+from sqlalchemy.exc import IntegrityError
+from business.bal.backtest_bal import BacktestBAL
+from business.bao.services.backtest_bao_service import BacktestBAOService
+from persistence.dal.backtest_dal import BacktestDAL
+from presentation.pao.services.backtest_pao_service import BacktestPAOService
+from presentation.pal.backtest_pal import BacktestPAL
+from database import get_db
 
-router = APIRouter(
-    prefix="/backtest",
-    tags=["Backtest"]
-)
+router = APIRouter()
 
-@router.post("", response_model=BacktestResultBTO)
-def run_backtest(request: BacktestRequestBTO):
-    result = BacktestService.run_backtest(request)
-    return result
+db = next(get_db())
+backtest_dal = BacktestDAL(db)
+backtest_bao = BacktestBAOService(db, backtest_dal)
+backtest_bal = BacktestBAL(backtest_bao)
+backtest_pao = BacktestPAOService(backtest_bal)
+backtest_pal = BacktestPAL(backtest_pao)
+
+@router.post("/api/trademind/backtests/create")
+def create_backtest(backtest_data: dict):
+    try:
+        return backtest_pal.create_backtest(backtest_data)
+    except IntegrityError:
+        raise HTTPException(status_code=400, detail="Constraint violation.")
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
+@router.get("/api/trademind/backtests/{backtest_id}")
+def get_backtest_by_id(backtest_id: int):
+    try:
+        backtest = backtest_pal.get_backtest_by_id(backtest_id)
+        if not backtest:
+            raise HTTPException(status_code=404, detail="Backtest not found.")
+        return backtest
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
+@router.get("/api/trademind/backtests/user/{user_id}")
+def get_backtests_by_user(user_id: int):
+    try:
+        return backtest_pal.get_backtests_by_user(user_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
+@router.get("/api/trademind/backtests/strategy/{strategy_id}")
+def get_backtests_by_strategy(strategy_id: int):
+    try:
+        return backtest_pal.get_backtests_by_strategy(strategy_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
+@router.delete("/api/trademind/backtests/{backtest_id}")
+def delete_backtest(backtest_id: int):
+    try:
+        success = backtest_pal.delete_backtest(backtest_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Backtest not found.")
+        return {"message": "Backtest deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error: " + str(e))

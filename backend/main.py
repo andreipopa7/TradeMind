@@ -7,6 +7,7 @@ from presentation.controllers.trading_account_controller import router as accoun
 from presentation.controllers.trade_controller import router as trade_router
 from presentation.controllers.statistic_controller import router as statistic_router
 from presentation.controllers.backtest_controller import router as backtest_router
+from presentation.controllers.strategy_controller import router as strategy_router
 from dotenv import load_dotenv
 load_dotenv()
 app = FastAPI()
@@ -29,7 +30,7 @@ app.include_router(accounts_router)
 app.include_router(trade_router)
 app.include_router(statistic_router)
 app.include_router(backtest_router)
-
+app.include_router(strategy_router)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
