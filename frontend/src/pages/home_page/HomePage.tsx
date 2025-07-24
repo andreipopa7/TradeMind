@@ -1,12 +1,17 @@
 import React from 'react';
+
 import NavBar from '../../components/nav_bar/NavBar';
 import SideMenu from '../../components/side_menu/SideMenu';
+import Footer from "../../components/footer/Footer";
+
 import '../../styles/GlobalStyles.css';
+import '../../styles/FormStyles.css';
 import './HomePageStyles.css';
+
 
 const HomePage: React.FC = () => {
     return (
-        <div className="home-page">
+        <div className="app-container">
             <NavBar />
 
             <div className="main-content">
@@ -15,10 +20,13 @@ const HomePage: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Home - Update soon...</h1>
+                    <h2 className="page-title">Home - Update soon...</h2>
 
+                    <Footer/>
                 </div>
             </div>
+
+
         </div>
     );
 };

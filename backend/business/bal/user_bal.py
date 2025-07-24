@@ -61,3 +61,10 @@ class UserBAL:
 
     def update_user(self, user_id: int, user_bto: UserBTO) -> UserBTO:
         return self.bao_service.update_user(user_id, user_bto)
+
+
+    def verify_user_by_email(self, email: str) -> None:
+        self.bao_service.verify_user_by_email(email)
+
+    def reset_user_password(self, email: str, new_password: str) -> None:
+        self.bao_service.reset_user_password(email, new_password)

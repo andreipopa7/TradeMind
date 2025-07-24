@@ -1,11 +1,13 @@
 from typing import Optional, Dict
 from datetime import datetime
+from persistence.entities.utils_entity import StrategyType
+
 
 class StrategyBTO:
     def __init__(self,
                  id: Optional[int],
                  name: str,
-                 type: str,
+                 type: StrategyType,
                  description: Optional[str] = None,
                  parameters: Optional[Dict] = None,
                  is_public: Optional[bool] = True,

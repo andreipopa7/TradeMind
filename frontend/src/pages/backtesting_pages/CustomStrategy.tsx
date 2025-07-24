@@ -15,7 +15,7 @@ const CustomStrategy: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>CustomStrategy Page</h1>
+                    <h2 className="page-title">CustomStrategy Page </h2>
                     <p>Acesta este conținutul principal al paginii.</p>
                 </div>
             </div>

@@ -1,0 +1,101 @@
+/* === Form Container === */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 35%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--box-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.wide-form {
+    max-width: 700px;
+}
+
+/* === Labels === */
+.form-container label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-color);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+/* === Inputs & Selects === */
+.form-container input,
+.form-container select {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-top: 5px;
+    background-color: var(--box-color-alt);
+    color: var(--text-color);
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+/* === Primary Button === */
+.form-button {
+    padding: 12px;
+    background-color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+    background-color: #00c765;
+}
+
+/* === Secondary Button (like change-password) === */
+.form-button-secondary {
+    margin: 30px auto 10px auto;
+    background-color: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    text-align: center;
+}
+
+.form-button-secondary:hover {
+    background-color: var(--accent);
+    color: black;
+}
+
+/* === Messages === */
+.form-error,
+.form-success {
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.form-error {
+    color: #ff4c4c;
+}
+
+.form-success {
+    color: var(--accent);
+}

@@ -34,7 +34,7 @@
 
 .stat-label {
     font-size: 13px;
-    color: var(--text-color-secondary);
+    color: var(--text-color);
 }
 
 .stat-value {

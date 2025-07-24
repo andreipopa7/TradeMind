@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Trade } from "./Trade";
+import { Trade } from "../../../types/Trade";
 import "../styles/TradeRow.css";
 
 interface TradeRowProps {
@@ -24,7 +24,7 @@ const TradeRow: React.FC<TradeRowProps> = ({ trade, onEdit, onDelete }) => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 menuRef.current &&
-                !menuRef.current.contains(event.target as Node) // Dacă userul NU a dat click pe dropdown
+                !menuRef.current.contains(event.target as Node)
             ) {
                 setShowActions(false);
             }
@@ -66,10 +66,9 @@ const TradeRow: React.FC<TradeRowProps> = ({ trade, onEdit, onDelete }) => {
                 </td>
             </tr>
 
-            {/* Dropdown de acțiuni, poziționat exact unde face userul dublu-click */}
             {showActions && (
                 <div
-                    ref={menuRef} // Adăugăm ref pentru a preveni închiderea automată
+                    ref={menuRef}
                     className="actions-dropdown"
                     style={{ top: `${menuPosition.y}px`, left: `${menuPosition.x}px` }}
                 >

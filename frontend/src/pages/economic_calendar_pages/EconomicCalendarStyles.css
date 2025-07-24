@@ -1,49 +1,25 @@
-.economic-calendar-page {
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.economic-calendar-content {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-}
-
-.side-menu {
-    flex: 0.2;
-}
-
-.calendar-content {
-    flex: 0.9;
-    padding: 20px;
-    text-align: center;
-    color: white;
-}
-
-.calendar-selector, .filter-options {
+.calendar-selector,
+.filter-options {
     margin-bottom: 20px;
 }
 
-.calendar-selector label, .filter-options label {
+.calendar-selector label,
+.filter-options label {
     font-size: 16px;
     font-weight: bold;
     margin-right: 10px;
-    color: white;
+    color: var(--text-color);
 }
 
-.calendar-selector select, .filter-options select {
+.calendar-selector select,
+.filter-options select {
     padding: 5px 10px;
     font-size: 16px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    background: #222;
-    color: white;
+    border: 1px solid var(--border);
+    background: var(--box-color-alt);
+    color: var(--text-color);
 }
-
-
 
 .calendar-iframe-container {
     width: 100%;
@@ -59,4 +35,14 @@
     width: 100%;
     height: 100%;
     border: none;
+}
+
+.economic-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: var(--box-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 20px;
 }

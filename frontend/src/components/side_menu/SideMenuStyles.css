@@ -1,102 +1,107 @@
-/* SideMenuStyles.css */
-
 .menu-container {
     position: fixed;
     top: 100px;
     left: 20px;
     width: 250px;
-    background-color: #333333;
-    color: #fff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     height: calc(100vh - 120px);
     border-radius: 10px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #007bff #333;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    border: 1px solid #444444;
+    scrollbar-color: var(--accent) var(--box-color-alt);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
     z-index: 1000;
 }
-
 
 /* Scrollbar personalizat */
 .menu-container::-webkit-scrollbar {
     width: 8px;
 }
-
 .menu-container::-webkit-scrollbar-thumb {
-    background: #007bff;
+    background: var(--accent);
     border-radius: 8px;
 }
-
 .menu-container::-webkit-scrollbar-track {
-    background: #333;
+    background: var(--box-color-alt);
 }
 
-/* Stiluri pentru elementele meniului */
+/* Stiluri generale pentru fiecare item */
 .menu-item {
-    padding: 10px 20px;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border-radius: 4px;
-    font-size: 18px;
-    transition: background 0.3s, padding 0.3s;
 }
 
-.menu-item a {
-    color: #f5f5f5;
-    text-decoration: none;
-}
-
-.menu-item:hover {
-    background-color: #007bff;
-    font-weight: bold;
-}
-
-/* Submeniuri */
+/* Headerul meniului principal */
 .menu-item-header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    color: var(--text-color);
+    cursor: pointer;
+    text-decoration: none;
 }
 
+.menu-item-header:hover {
+    background-color: var(--accent);
+    color: black;
+    font-weight: bold;
+}
+
+.menu-item-header:hover .icon,
+.menu-item-header:hover .label,
+.menu-item-header:hover .arrow {
+    color: black;
+}
+
+/* Icon + text */
 .menu-item-header .icon {
     margin-right: 10px;
+    color: var(--text-color);
+    width: 20px;
+    text-align: center;
 }
-
+.menu-item-header .label {
+    flex-grow: 1;
+}
 .menu-item-header .arrow {
     margin-left: auto;
+    color: var(--text-color-secondary);
 }
 
+/* Submeniuri */
 .sub-menu {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-left: 10px;
     animation: slideDown 0.3s ease-in-out;
 }
 
 .sub-menu-item {
     display: flex;
+    align-items: center;
     gap: 10px;
-    padding: 5px 10px;
-    color: #f5f5f5;
+    padding: 5px 20px;
+    font-size: 16px;
+    color: var(--text-color);
     text-decoration: none;
-    transition: color 0.3s, background 0.3s;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.menu-item.has-submenu:hover {
-
-    background-color: #333333;
-}
 .sub-menu-item:hover {
-    background-color: #007bff;
+    background-color: var(--accent);
+    color: black;
 }
 
-
-
-
-/* Animație pentru deschiderea submeniurilor */
+/* Animație */
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -107,11 +112,3 @@
         transform: translateY(0);
     }
 }
-
-/* Stil pentru pictograme */
-.icon {
-    width: 20px;
-    text-align: center;
-}
-
-

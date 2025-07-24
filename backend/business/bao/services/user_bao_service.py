@@ -1,9 +1,12 @@
 from typing import Optional
+import re
 
 from business.bto.user_bto import UserBTO
 from business.bao.interfaces.user_bao_interface import UserBAOInterface
 from business.mappers.user_mapper import UserMapper
 from persistence.dal.user_dal import UserDAL
+from persistence.utils.data_validators import validate_password_strength, validate_email_format, validate_phone, \
+    validate_gender
 
 
 class UserBAOService(UserBAOInterface):
@@ -50,6 +53,12 @@ class UserBAOService(UserBAOInterface):
     def create_user(self, user_bto: UserBTO) -> UserBTO:
         if self.get_user_by_email(user_bto.email):
             raise ValueError("User with this email already exists.")
+
+        validate_password_strength(user_bto.password)
+        validate_email_format(user_bto.email)
+        validate_phone(user_bto.phone)
+        validate_gender(user_bto.gender)
+
         user_dto = UserMapper.bto_to_dto(user_bto)
         created_user_dto = self.user_dal.create_user(user_dto)
         return UserMapper.dto_to_bto(created_user_dto)
@@ -84,10 +93,13 @@ class UserBAOService(UserBAOInterface):
         if len(new_password) < 8:
             raise ValueError("New password must be at least 8 characters long")
 
+        validate_password_strength(new_password)
         self.user_dal.update_user_password(email, new_password)
 
     def update_user_phone(self, email: str, current_phone: str, new_phone: str) -> None:
         user = self.user_dal.get_user_by_email(email)
+        validate_phone(new_phone)
+
         if not user:
             raise ValueError("User not found")
         if user.phone != current_phone:
@@ -96,6 +108,8 @@ class UserBAOService(UserBAOInterface):
 
     def update_user_gender(self, email: str, current_gender: str, new_gender: str) -> None:
         user = self.user_dal.get_user_by_email(email)
+        validate_gender(new_gender)
+
         if not user:
             raise ValueError("User not found")
         if user.gender != current_gender:
@@ -137,8 +151,16 @@ class UserBAOService(UserBAOInterface):
             first_name=updated_user.first_name,
             last_name=updated_user.last_name,
             email=updated_user.email,
-            password=updated_user.password,
+            password=user.password,
             phone=updated_user.phone,
             gender=updated_user.gender,
-            country=updated_user.country
+            country=updated_user.country,
+            is_verified=True
         )
+
+    def verify_user_by_email(self, email: str) -> None:
+        self.user_dal.verify_user_by_email(email)
+
+    def reset_user_password(self, email: str, new_password: str) -> None:
+        validate_password_strength(new_password)
+        self.user_dal.update_user_password(email, new_password)

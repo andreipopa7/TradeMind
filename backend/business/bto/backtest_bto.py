@@ -9,14 +9,19 @@ class BacktestBTO:
                  strategy_id: Optional[int],
 
                  symbol: str,
-                 source: str,
                  time_frame: str,
                  start_date: Optional[datetime] = None,
                  end_date: Optional[datetime] = None,
 
+                 initial_balance: Optional[float] = None,
+                 risk_per_trade: Optional[float] = None,
+
                  total_profit: Optional[float] = None,
-                 trades_json: Optional[List[Dict]] = None,
-                 candles_json: Optional[List[Dict]] = None,
+                 drawdown_max: Optional[float] = None,
+                 winrate: Optional[float] = None,
+                 nr_trades: Optional[int] = None,
+                 profit_factor: Optional[float] = None,
+                 expectancy: Optional[float] = None,
 
                  created_at: Optional[datetime] = None
                  ):
@@ -25,16 +30,22 @@ class BacktestBTO:
         self.strategy_id = strategy_id
 
         self.symbol = symbol
-        self.source = source
         self.time_frame = time_frame
         self.start_date = start_date
         self.end_date = end_date
 
+        self.initial_balance = initial_balance
+        self.risk_per_trade = risk_per_trade
+
         self.total_profit = total_profit
-        self.trades_json = trades_json
-        self.candles_json = candles_json
+        self.drawdown_max = drawdown_max
+        self.winrate = winrate
+        self.nr_trades = nr_trades
+        self.profit_factor = profit_factor
+        self.expectancy = expectancy
 
         self.created_at = created_at
+
 
 class BacktestRequestBTO(BaseModel):
     symbol: str

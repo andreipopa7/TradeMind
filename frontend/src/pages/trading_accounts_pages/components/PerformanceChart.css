@@ -1,12 +1,14 @@
 .chart-container {
-    background: #1e1e1e;
-    color: white;
+    width: 95%;
+    margin: 20px auto 30px auto;
+    background: var(--box-color);
+    color: var(--text-color);
     padding: 20px;
-    margin-bottom: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow);
     text-align: center;
 }
+
 
 p {
     color: white;

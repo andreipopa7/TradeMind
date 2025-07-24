@@ -1,41 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styles/MyStatistics.css';
+import {useAuth} from "../../configuration/UseAuth";
+import {Statistic} from "../../types/StatisticProps";
+
+import api from "../../configuration/AxiosConfigurations";
+import StatisticDeleteModal from "./components/StatisticDeleteModal";
 import NavBar from "../../components/nav_bar/NavBar";
 import SideMenu from "../../components/side_menu/SideMenu";
+import Footer from "../../components/footer/Footer";
 
-interface Statistic {
-    id: number;
-    name: string;
-    created_at: string;
-    is_active: boolean;
-    params: any;
-}
+import './styles/MyStatistics.css';
+
+
 
 const MyStatisticsPage: React.FC = () => {
     const [statistics, setStatistics] = useState<Statistic[]>([]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [statToDelete, setStatToDelete] = useState<Statistic | null>(null);
     const navigate = useNavigate();
+    const user = useAuth();
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/trademind/statistics/user/1")
-            .then((res) => res.json())
-            .then((data) => setStatistics(data))
-            .catch((err) => console.error("Failed to fetch statistics", err));
-    }, []);
+        const fetchUserStatistics = async () => {
+            if (!user?.id) return;
+            try {
+                const response = await api.get(`/api/trademind/statistics/user/${user.id}`);
+                setStatistics(response.data);
+            } catch (err) {
+                console.error("Failed to fetch statistics", err);
+            }
+        };
+
+        fetchUserStatistics();
+    }, [user]);
 
     const handleCardClick = (statisticId: number) => {
         navigate(`/statistics/my_statistics/${statisticId}`);
     };
 
+    const openDeleteModal = (stat: Statistic) => {
+        setStatToDelete(stat);
+        setShowDeleteModal(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!statToDelete) return;
+
+        try {
+            await api.delete(`/api/trademind/statistics/${statToDelete.id}`);
+            setStatistics((prev) => prev.filter((s) => s.id !== statToDelete.id));
+        } catch (err) {
+            console.error("Error deleting statistic:", err);
+        } finally {
+            setShowDeleteModal(false);
+            setStatToDelete(null);
+        }
+    };
+
+
     return (
-        <div className="my-trades-container">
+        <div className="app-container">
             <NavBar />
+
             <div className="main-content">
                 <div className="side-menu">
                     <SideMenu />
                 </div>
+
                 <div className="page-content">
-                    <h2>My Statistics</h2>
+                    <h2 className="page-title">My Statistics</h2>
 
                     <div style={{textAlign: 'center', marginBottom: '20px'}}>
                         <button
@@ -61,13 +94,26 @@ const MyStatisticsPage: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="stat-actions">
-                                    <button className="view-button" onClick={() => handleCardClick(stat.id)}>View
+                                    <button className="view-button"
+                                            onClick={() => handleCardClick(stat.id)}>View
                                     </button>
-                                    <button className="delete-button">Delete</button>
+                                    <button className="delete-button" onClick={() => openDeleteModal(stat)}>Delete
+                                    </button>
+
                                 </div>
                             </div>
                         ))}
                     </div>
+
+                    {showDeleteModal && statToDelete && (
+                        <StatisticDeleteModal
+                            statisticName={statToDelete.name}
+                            onCancel={() => setShowDeleteModal(false)}
+                            onConfirm={handleConfirmDelete}
+                        />
+                    )}
+
+                    <Footer />
                 </div>
             </div>
         </div>

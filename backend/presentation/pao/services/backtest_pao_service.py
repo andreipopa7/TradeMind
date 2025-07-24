@@ -19,14 +19,19 @@ class BacktestPAOService(BacktestPAOInterface):
             strategy_id=data["strategy_id"],
 
             symbol=data["symbol"],
-            source=data["source"],
             time_frame=data["time_frame"],
             start_date=data["start_date"],
             end_date=data["end_date"],
 
+            initial_balance=data.get("initial_balance"),
+            risk_per_trade=data.get("risk_per_trade"),
+
             total_profit=None,
-            trades_json=None,
-            candles_json=None,
+            drawdown_max=None,
+            winrate=None,
+            nr_trades=None,
+            profit_factor=None,
+            expectancy=None,
 
             created_at=None
         )
@@ -38,14 +43,19 @@ class BacktestPAOService(BacktestPAOInterface):
             "strategy_id": bto.strategy_id,
 
             "symbol": bto.symbol,
-            "source": bto.source,
             "time_frame": bto.time_frame,
             "start_date": bto.start_date,
             "end_date": bto.end_date,
 
+            "initial_balance": bto.initial_balance,
+            "risk_per_trade": bto.risk_per_trade,
+
             "total_profit": bto.total_profit,
-            "trades_json": bto.trades_json,
-            "candles_json": bto.candles_json,
+            "drawdown_max": bto.drawdown_max,
+            "winrate": bto.winrate,
+            "nr_trades": bto.nr_trades,
+            "profit_factor": bto.profit_factor,
+            "expectancy": bto.expectancy,
 
             "created_at": bto.created_at
         }
@@ -54,6 +64,11 @@ class BacktestPAOService(BacktestPAOInterface):
         bto = self.request_to_bto(data)
         created = self.bal.create_backtest(bto)
         return self.bto_to_response(created)
+
+    def run_backtest_preview(self, data: Dict) -> dict:
+        bto = self.request_to_bto(data)
+        return self.bal.run_backtest_preview(bto)
+
 
     def get_backtest_by_id(self, backtest_id: int) -> Optional[Dict]:
         bto = self.bal.get_backtest_by_id(backtest_id)

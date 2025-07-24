@@ -12,14 +12,19 @@ class BacktestEntity(Base):
     strategy_id  = Column(Integer, ForeignKey('strategies.id', ondelete='SET NULL'))
 
     symbol       = Column(String(20), nullable=False)
-    source       = Column(String(20), nullable=False)
     time_frame   = Column(String(20), nullable=False)
     start_date   = Column(TIMESTAMP)
     end_date     = Column(TIMESTAMP)
 
-    total_profit = Column(Float)
-    trades_json  = Column(JSON)
-    candles_json = Column(JSON)
+    initial_balance = Column(Float, nullable=True)
+    risk_per_trade = Column(Float, nullable=True)
+
+    total_profit = Column(Float, nullable=True)
+    drawdown_max = Column(Float, nullable=True)
+    winrate = Column(Float, nullable=True)
+    nr_trades = Column(Integer, nullable=True)
+    profit_factor = Column(Float, nullable=True)
+    expectancy = Column(Float, nullable=True)
 
     created_at   = Column(TIMESTAMP, default="NOW()")
 

@@ -15,7 +15,7 @@ class UserRepository(UserDAOInterface):
 
     # Create & delete
     def create_user(self, user_dto: UserDTO) -> UserDTO:
-        hashed_password = hashlib.md5(user_dto.password.encode('utf-8')).hexdigest()
+        hashed_password = hashlib.sha256(user_dto.password.encode('utf-8')).hexdigest()
         user_entity = UserMapper.dto_to_entity(user_dto, hashed_password)
         self.db.add(user_entity)
         self.db.commit()
@@ -53,7 +53,7 @@ class UserRepository(UserDAOInterface):
         if not user_entity:
             raise ValueError("User with the specified email not found")
 
-        hashed_password = hashlib.md5(new_password.encode('utf-8')).hexdigest()
+        hashed_password = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
         user_entity.password = hashed_password
 
         self.db.commit()
@@ -118,10 +118,6 @@ class UserRepository(UserDAOInterface):
         )
         return UserMapper.entity_to_dto(user_entity) if user_entity else None
 
-
-
-
-
     # Getters - multiple rows
     def get_all_users(self) -> List[UserDTO]:
         users = self.db.query(UserEntity).all()
@@ -132,5 +128,12 @@ class UserRepository(UserDAOInterface):
         if not user_entity:
             raise ValueError("User with the specified email not found")
 
-        hashed_password = hashlib.md5(current_password.encode('utf-8')).hexdigest()
+        hashed_password = hashlib.sha256(current_password.encode('utf-8')).hexdigest()
         return user_entity.password == hashed_password
+
+    def verify_user_by_email(self, email: str) -> None:
+        user_entity = self.db.query(UserEntity).filter_by(email=email).first()
+        if not user_entity:
+            raise ValueError("User not found")
+        user_entity.is_verified = True
+        self.db.commit()

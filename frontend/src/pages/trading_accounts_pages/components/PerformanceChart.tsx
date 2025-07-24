@@ -1,14 +1,13 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip } from "chart.js";
+
 import "../view_accounts/DashboardStyles.css";
 import "./PerformanceChart.css";
+import {PerformanceProps} from "../../../types/PerformanceProps";
+
 
 ChartJS.register(LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
-
-interface PerformanceProps {
-    data: { date: string; balance: number }[] | null;
-}
 
 const PerformanceChart: React.FC<PerformanceProps> = ({ data }) => {
     if (!Array.isArray(data) || data.length === 0) {
@@ -40,7 +39,7 @@ const PerformanceChart: React.FC<PerformanceProps> = ({ data }) => {
         responsive: true,
         plugins: {
             title: {
-                display: true,
+                display: false,
                 text: "Performance Chart",
             },
             tooltip: {
@@ -56,7 +55,8 @@ const PerformanceChart: React.FC<PerformanceProps> = ({ data }) => {
 
     return (
         <div className="chart-container">
-            <Line data={chartData} options={options} />
+            <h2 className="chart-title">Performance Chart</h2>
+            <Line data={chartData} options={options}/>
         </div>
     );
 };

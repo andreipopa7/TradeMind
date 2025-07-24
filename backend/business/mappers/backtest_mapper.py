@@ -1,6 +1,7 @@
 from business.bto.backtest_bto import BacktestBTO
 from persistence.dto.backtest_dto import BacktestDTO
 
+
 class BacktestMapper:
     @staticmethod
     def dto_to_bto(dto: BacktestDTO) -> BacktestBTO:
@@ -10,14 +11,19 @@ class BacktestMapper:
             strategy_id   = dto.strategy_id,
 
             symbol        = dto.symbol,
-            source        = dto.source,
             time_frame    = dto.time_frame,
             start_date    = dto.start_date,
             end_date      = dto.end_date,
 
+            initial_balance = dto.initial_balance,
+            risk_per_trade  = dto.risk_per_trade,
+
             total_profit  = dto.total_profit,
-            trades_json   = dto.trades_json,
-            candles_json  = dto.candles_json,
+            drawdown_max  = dto.drawdown_max,
+            winrate       = dto.winrate,
+            nr_trades     = dto.nr_trades,
+            profit_factor = dto.profit_factor,
+            expectancy    = dto.expectancy,
 
             created_at    = dto.created_at
         )
@@ -30,14 +36,19 @@ class BacktestMapper:
             strategy_id   = bto.strategy_id,
 
             symbol        = bto.symbol,
-            source        = bto.source,
             time_frame    = bto.time_frame,
             start_date    = bto.start_date,
             end_date      = bto.end_date,
 
+            initial_balance = bto.initial_balance,
+            risk_per_trade  = bto.risk_per_trade,
+
             total_profit  = bto.total_profit,
-            trades_json   = bto.trades_json,
-            candles_json  = bto.candles_json,
+            drawdown_max  = bto.drawdown_max,
+            winrate       = bto.winrate,
+            nr_trades     = bto.nr_trades,
+            profit_factor = bto.profit_factor,
+            expectancy    = bto.expectancy,
 
             created_at    = bto.created_at
         )

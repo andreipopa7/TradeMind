@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../configuration/UseAuth";
+import api from "../../../configuration/AxiosConfigurations";
+
 import AccountInfoCard from "../components/AccountInfoCard";
-import "./DashboardStyles.css";
 import NavBar from "../../../components/nav_bar/NavBar";
 import SideMenu from "../../../components/side_menu/SideMenu";
+import Footer from "../../../components/footer/Footer";
+
+import "../../../styles/GlobalStyles.css";
+import "./DashboardStyles.css";
+
 
 const DashboardPage: React.FC = () => {
     const [accounts, setAccounts] = useState<any[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
+    const user = useAuth();
 
     useEffect(() => {
-        const user_id = localStorage.getItem("user_id");
-        if (!user_id) {
-            setErrorMessage("No user email found. Please log in.");
+        if (!user?.id) {
+            setErrorMessage("User not authenticated.");
             return;
         }
 
         const fetchAccounts = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/trademind/trading_accounts/accounts/${encodeURIComponent(user_id)}`);
+                const response = await api.get(`/api/trademind/trading_accounts/accounts/${user.id}`);
 
                 if (response.status === 404) {
                     setErrorMessage("No trading accounts found.");
@@ -28,9 +35,7 @@ const DashboardPage: React.FC = () => {
                     return;
                 }
 
-                if (!response.ok) throw new Error("Failed to fetch accounts");
-
-                const data = await response.json();
+                const data = response.data;
                 if (Array.isArray(data)) {
                     setAccounts(data);
                     if (data.length === 0) {
@@ -46,7 +51,29 @@ const DashboardPage: React.FC = () => {
         };
 
         fetchAccounts();
-    }, []);
+    }, [user]);
+
+    const reloadAccountData = async () => {
+        if (!user?.id) return;
+        try {
+            const userAccounts = await api.get(`/api/trademind/trading_accounts/accounts/${user.id}`);
+            const accountsData = await Promise.all(
+                userAccounts.data.map(async (acc: any) => {
+                    const reloadResp = await api.get(`/api/trademind/trading_accounts/${acc.account_id}/get_account_info/reload`);
+                    return { ...acc, ...reloadResp.data };
+                })
+            );
+            setAccounts(accountsData);
+            setErrorMessage("");
+
+            if (accountsData.length > 0) {
+                setShowPopup(false);
+            }
+
+        } catch (error) {
+            setErrorMessage("Failed to reload accounts.");
+        }
+    };
 
 
     const handleDeleteAccount = (deletedAccountId: number) => {
@@ -55,8 +82,9 @@ const DashboardPage: React.FC = () => {
         );
     };
 
+
     return (
-        <div className="dashboard-page">
+        <div className="app-container">
             <NavBar />
             <div className="main-content">
                 <div className="side-menu">
@@ -64,7 +92,8 @@ const DashboardPage: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>Your Trading Accounts</h1>
+                    <h2 className="page-title">Your Trading Accounts</h2>
+
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
 
                     <div className="account-list">
@@ -79,6 +108,9 @@ const DashboardPage: React.FC = () => {
                         ) : (
                             <p>Loading accounts...</p>
                         )}
+                        <button className="form-button reload-button" onClick={reloadAccountData}>
+                            Reload accounts
+                        </button>
                     </div>
                 </div>
             </div>
@@ -86,22 +118,29 @@ const DashboardPage: React.FC = () => {
             {showPopup && (
                 <div className="credentials-modal">
                     <div className="modal-content">
-                        <p className="error-message">
+                        <p className="form-error">
                             You don't have any trading accounts added yet. Please add one to continue.
                         </p>
                         <button className="close-modal" onClick={() => setShowPopup(false)}>✖</button>
 
                         <div className="modal-buttons">
-                            <button className="add-account-button" onClick={() => navigate("/accounts/add")}>
+                            <button className="form-button" onClick={() => navigate("/accounts/add")}>
                                 Add Account
                             </button>
-                            <button className="cancel-button" onClick={() => navigate("/home")}>
+
+                            <button className="form-button" onClick={reloadAccountData}>
+                                Reload
+                            </button>
+
+                            <button className="form-button" onClick={() => navigate("/home")}>
                                 Cancel
                             </button>
                         </div>
                     </div>
                 </div>
             )}
+
+            <Footer/>
         </div>
     );
 };

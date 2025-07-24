@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Trade } from "./Trade";
+import { Trade } from "../../../types/Trade";
 import TradeRow from "./TradeRow";
 import "../styles/TradeTable.css";
 
@@ -46,34 +46,36 @@ const TradeTable: React.FC<TradeTableProps> = ({ trades, onEdit, onDelete, onAdd
                 <button className="add-trade-btn" onClick={onAddNew}>Add New Trade</button>
             </div>
 
-            <table className="trade-table">
-                <thead>
-                <tr>
-                    <th onClick={() => onSortChange("market")}>Market ⬍</th>
-                    <th>Volume</th>
-                    <th>Type</th>
-                    <th onClick={() => onSortChange("open_date")}>Open Date ⬍</th>
-                    <th>Open Time</th>
-                    <th>Close Date</th>
-                    <th>Close Time</th>
-                    <th>Session</th>
-                    <th>Open Price</th>
-                    <th>TP Price</th>
-                    <th>SL Price</th>
-                    <th>Close Price</th>
-                    <th onClick={() => onSortChange("profit")}>Profit ⬍</th>
-                    <th>Swap</th>
-                    <th>Commission</th>
-                    <th>Pips</th>
-                    <th>Photo Link</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentTrades.map((trade) => (
-                    <TradeRow key={trade.id} trade={trade} onEdit={onEdit} onDelete={onDelete}/>
-                ))}
-                </tbody>
-            </table>
+            <div className="table-wrapper">
+                <table className="trade-table">
+                    <thead>
+                    <tr>
+                        <th onClick={() => onSortChange("market")}>Market ⬍</th>
+                        <th>Volume</th>
+                        <th>Type</th>
+                        <th onClick={() => onSortChange("open_date")}>Open Date ⬍</th>
+                        <th>Open Time</th>
+                        <th>Close Date</th>
+                        <th>Close Time</th>
+                        <th>Session</th>
+                        <th>Open Price</th>
+                        <th>TP Price</th>
+                        <th>SL Price</th>
+                        <th>Close Price</th>
+                        <th onClick={() => onSortChange("profit")}>Profit ⬍</th>
+                        <th>Swap</th>
+                        <th>Commission</th>
+                        <th>Pips</th>
+                        <th>Photo Link</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {currentTrades.map((trade) => (
+                        <TradeRow key={trade.id} trade={trade} onEdit={onEdit} onDelete={onDelete}/>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
 
             <div className="pagination-nav">
                 <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>

@@ -17,8 +17,8 @@ class TradingAccountPAL:
         return self.trading_account_pao.delete_trading_account(account_id)
 
     # Getters
-    def get_account_info_by_id(self, account_id: int) -> dict:
-        return self.trading_account_pao.get_account_info_by_id(account_id)
+    def get_account_info_by_id(self, account_id: int, force_reload: bool = False) -> dict:
+        return self.trading_account_pao.get_account_info_by_id(account_id, force_reload)
 
     def get_trade_history_by_id(self, account_id: int) -> List[dict]:
         return self.trading_account_pao.get_trade_history_by_id(account_id)

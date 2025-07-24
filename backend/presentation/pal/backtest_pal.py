@@ -8,6 +8,9 @@ class BacktestPAL:
     def create_backtest(self, data: Dict) -> Dict:
         return self.pao.create_backtest(data)
 
+    def run_backtest_preview(self, data: Dict) -> dict:
+        return self.pao.run_backtest_preview(data)
+
     def get_backtest_by_id(self, backtest_id: int) -> Optional[Dict]:
         return self.pao.get_backtest_by_id(backtest_id)
 

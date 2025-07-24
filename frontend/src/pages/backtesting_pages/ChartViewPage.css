@@ -1,0 +1,94 @@
+.chart-page {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-content {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+}
+
+
+.calendar-content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.chart-settings-card {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.chart-settings-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.chart-settings-row select,
+.chart-settings-row input,
+.chart-settings-row button {
+    padding: 8px 12px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.chart-settings-row button {
+    cursor: pointer;
+    background-color: #007bff;
+    border: none;
+}
+
+.chart-settings-row button:hover {
+    background-color: #0056b3;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.metrics-panel {
+    background-color: #333333;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.metrics-panel ul {
+    list-style: none;
+    padding: 0;
+}

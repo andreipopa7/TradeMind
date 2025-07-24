@@ -1,5 +1,7 @@
 from typing import List, Optional
 from persistence.dto.strategy_dto import StrategyDTO
+from persistence.entities.utils_entity import StrategyType
+
 
 class StrategyDAOInterface:
 
@@ -21,6 +23,8 @@ class StrategyDAOInterface:
     def get_public_strategies(self) -> List[StrategyDTO]:
         pass
 
+    def get_strategies_by_type(self, type: StrategyType) -> List[StrategyDTO]:
+        pass
 
     # Setters
     def update_strategy(self, strategy_id: int, updated_dto: StrategyDTO) -> Optional[StrategyDTO]:

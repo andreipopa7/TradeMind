@@ -18,6 +18,7 @@ class UserMapper:
             phone       = user_entity.phone,
             gender      = user_entity.gender,
             country     = user_entity.country,
+            is_verified = user_entity.is_verified,
 
             # trading_accounts = [TradingAccountMapper.entity_to_dto(acc) for acc in user_entity.trading_accounts]
             # backtests        = [BacktestMapper.entity_to_dto(bt) for bt in user_entity.backtests],
@@ -34,7 +35,8 @@ class UserMapper:
             password    = hashed_password,
             phone       = user_dto.phone,
             gender      = user_dto.gender,
-            country     = user_dto.country
+            country     = user_dto.country,
+            is_verified = user_dto.is_verified
         )
 
         # if user_dto.trading_accounts:

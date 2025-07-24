@@ -3,7 +3,9 @@ from typing import List, Optional
 from persistence.dao.interfaces.strategy_dao_interface import StrategyDAOInterface
 from persistence.entities.strategy_entity import StrategyEntity
 from persistence.dto.strategy_dto import StrategyDTO
+from persistence.entities.utils_entity import StrategyType
 from persistence.mappers.strategy_mapper import StrategyMapper
+
 
 class StrategyRepository(StrategyDAOInterface):
     def __init__(self, db: Session):
@@ -36,6 +38,13 @@ class StrategyRepository(StrategyDAOInterface):
     def get_public_strategies(self) -> List[StrategyDTO]:
         entities = self.db.query(StrategyEntity).filter(StrategyEntity.is_public == True).all()
         return [StrategyMapper.entity_to_dto(e) for e in entities]
+
+    def get_strategies_by_type(self, type: StrategyType) -> List[StrategyDTO]:
+        entities = self.db.query(StrategyEntity).filter(StrategyEntity.type == type).all()
+        return [StrategyMapper.entity_to_dto(e) for e in entities]
+
+    def strategy_name_exists(self, name: str) -> bool:
+        return self.db.query(StrategyEntity).filter(StrategyEntity.name == name).first() is not None
 
     def update_strategy(self, strategy_id: int, updated_dto: StrategyDTO) -> Optional[StrategyDTO]:
         strategy = self.db.query(StrategyEntity).filter(StrategyEntity.id == strategy_id).first()

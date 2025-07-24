@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { Trade } from "./Trade";
+
+import api from "../../../configuration/AxiosConfigurations";
+import { useAuth } from "../../../configuration/UseAuth";
+import { Trade } from "../../../types/Trade";
 import "../styles/TradeFormModal.css";
+
 
 interface TradeFormModalProps {
     trade?: Trade;
@@ -12,12 +16,10 @@ interface TradeFormModalProps {
 const TradeFormModal: React.FC<TradeFormModalProps> = ({ trade, onClose, onSuccess }) => {
     const isEdit = !!trade;
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const userId = localStorage.getItem("user_id");
+    const user = useAuth();
 
     const [formData, setFormData] = useState({
-        // id: trade?.id || undefined,
-        user_id: userId || undefined,
+        user_id: user?.id,
 
         market: trade?.market || undefined,
         type: trade?.type || undefined,
@@ -67,55 +69,40 @@ const TradeFormModal: React.FC<TradeFormModalProps> = ({ trade, onClose, onSucce
         setFormData({ ...formData, [name]: parsedValue });
     };
 
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!userId) {
-            return;
-        }
+        if (!user?.id) return;
 
-        const url = isEdit
-            ? `http://localhost:8000/api/trademind/trades/update_trade/${trade?.id}`
-            : `http://localhost:8000/api/trademind/trades/add_trade`;
-
-        const method = isEdit ? "PUT" : "POST";
-
-        console.log(" Sending request to:", url);
-        console.log(" Payload:", JSON.stringify(formData, null, 2));
+        const payload = {
+            ...formData,
+            user_id: user.id
+        };
 
         try {
-            const response = await fetch(url, {
-                method,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
+            const response = isEdit
+                ? await api.put(`/api/trademind/trades/update_trade/${trade?.id}`, payload)
+                : await api.post(`/api/trademind/trades/add_trade`, payload);
 
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                // verificăm dacă e dict cu `detail`
-                const error = responseData?.detail || "Unexpected error occurred.";
-                setErrorMessage(error);
+            if (response.status !== 200 && response.status !== 201) {
+                setErrorMessage("Unexpected error occurred.");
                 return;
             }
 
             onSuccess();
-
         } catch (error: any) {
-            setErrorMessage(error.message || "Something went wrong.");
             console.error("Error saving trade:", error);
+            const msg = error?.response?.data?.detail || error.message || "Something went wrong.";
+            setErrorMessage(msg);
         }
-
     };
-
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <h2>{isEdit ? "Edit Trade" : "Add Trade"}</h2>
 
-                <form onSubmit={handleSubmit}>
+                <form className="form-container" onSubmit={handleSubmit}>
                     <label>Market</label>
                     <input type="text" name="market" value={formData.market} onChange={handleChange} required/>
 

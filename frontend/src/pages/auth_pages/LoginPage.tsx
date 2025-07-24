@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import * as jwt_decode from "jwt-decode";
+
+import Footer from "../../components/footer/Footer";
+import { TokenPayload } from "../../types/TokenPayload";
+import api from "../../configuration/AxiosConfigurations";
+
 import '../../styles/GlobalStyles.css';
+import '../../styles/FormStyles.css';
 import './AuthStyles.css';
 
 
@@ -25,92 +32,95 @@ const LoginPage: React.FC = () => {
         setErrorMessage('');
         setSuccessMessage('');
 
+        if (!formData.email || !formData.password) {
+            setErrorMessage("Email and password are required.");
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            setErrorMessage("Invalid email format.");
+            return;
+        }
+
         try {
-            const response = await fetch(`http://localhost:8000/api/trademind/users/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                }),
+            const response = await api.post("/api/trademind/users/login", {
+                email: formData.email,
+                password: formData.password,
             });
 
-            if (response.ok) {
-                const userData = await response.json();
+            const { access_token } = response.data;
 
-                localStorage.setItem('user_id', JSON.stringify(userData.user.id));
-                localStorage.setItem("email", userData.user.email);
+            localStorage.setItem("access_token", access_token);
 
-                setSuccessMessage(`Welcome back, ${userData.user.first_name}!`);
+            const decoded = jwt_decode.jwtDecode<TokenPayload>(access_token);
 
-                setTimeout(() => navigate('/home'), 2000);
+            setSuccessMessage(`Welcome back, ${decoded.first_name}!`);
+            setTimeout(() => navigate('/home'), 2000);
+
+        } catch (error: any) {
+            if (error.response?.data?.detail) {
+                setErrorMessage(error.response.data.detail);
             } else {
-                const errorData = await response.json();
-                setErrorMessage(errorData.detail || 'Login failed. Please try again.');
+                setErrorMessage('Login failed. Please try again.');
             }
-        } catch (error) {
-            setErrorMessage('Invalid Credentials. Please try again later.');
         }
     };
 
     return (
-        <div className="page-container">
-            <div className="left-section">
-                <img
-                    src={"/loginImage.jpg"}
-                    alt="Login Illustration"
-                    className="login-image"
-                />
+        <div className="app-container auth-container">
+
+            <div className="title-container">
+                <h1 className="page-title">TradeMind</h1>
             </div>
 
-            <div className="right-section">
-                <div className="title-container">
-                    <h1>TradeMind</h1>
-                </div>
+            <div className="button-container">
+                <Link to="/login">
+                    <button className="btn active">Login</button>
+                </Link>
 
-                <div className="button-container">
-                    <Link to="/login">
-                        <button className="btn active">Login</button>
-                    </Link>
-
-                    <Link to="/register">
-                        <button className="btn inactive">Register</button>
-                    </Link>
-                </div>
-                <div className="form-container">
-                    <h1>Login</h1>
-                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                    {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                placeholder="Enter your email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                placeholder="Enter your password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="login-register--button">Login</button>
-                    </form>
-                </div>
+                <Link to="/register">
+                    <button className="btn inactive">Register</button>
+                </Link>
             </div>
+
+            <div className="form-container-div">
+
+                <form onSubmit={handleSubmit} className="form-container">
+                    <h2 className="page-title">Login</h2>
+
+                    {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+                    {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
+
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                    />
+
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <div className="forgot-password" >
+                        <Link to="/forgot-password">
+                            Forgot your password?
+                        </Link>
+                    </div>
+
+                    <button type="submit" className="form-button">Login</button>
+                </form>
+            </div>
+
+            <Footer/>
         </div>
     );
 };

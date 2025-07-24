@@ -1,5 +1,7 @@
 from typing import List, Optional
 from business.bto.strategy_bto import StrategyBTO
+from persistence.entities.utils_entity import StrategyType
+
 
 class StrategyBAOInterface:
     def create_strategy(self, bto: StrategyBTO) -> StrategyBTO:
@@ -15,6 +17,9 @@ class StrategyBAOInterface:
         pass
 
     def get_public_strategies(self) -> List[StrategyBTO]:
+        pass
+
+    def get_strategy_by_type(self, type: StrategyType) -> Optional[StrategyBTO]:
         pass
 
     def update_strategy(self, strategy_id: int, updated_bto: StrategyBTO) -> Optional[StrategyBTO]:

@@ -1,11 +1,12 @@
+import hashlib
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
 from persistence.dao.interfaces.trading_account_dao_interface import TradingAccountDAOInterface
-# from persistence.dao.repositories.utils_repository import encrypt_password, decrypt_password
 from persistence.dto.trading_account_dto import TradingAccountDTO
 from persistence.entities.trading_account_entity import TradingAccountEntity
 from persistence.mappers.trading_account_mapper import TradingAccountMapper
+from persistence.utils.encryption import encrypt, decrypt
 
 
 class TradingAccountRepository(TradingAccountDAOInterface):
@@ -15,15 +16,19 @@ class TradingAccountRepository(TradingAccountDAOInterface):
 
     # Create & Delete
     def register_trading_account(self, account_dto: TradingAccountDTO) -> TradingAccountDTO:
-        # encrypted_password = encrypt_password(account_dto.password)
-        new_account = TradingAccountMapper.dto_to_entity(account_dto)
-        # new_account.password = encrypted_password
+        try:
+            dto = account_dto.copy()
+            dto.password = encrypt(dto.password)
+            new_account = TradingAccountMapper.dto_to_entity(dto)
 
-        self.session.add(new_account)
-        self.session.commit()
-        self.session.refresh(new_account)
+            self.session.add(new_account)
+            self.session.commit()
+            self.session.refresh(new_account)
 
-        return TradingAccountMapper.entity_to_dto(new_account)
+            return TradingAccountMapper.entity_to_dto(new_account)
+        except():
+            self.session.rollback()
+
 
     def delete_trading_account(self, account_id: int) -> None:
         account = self.get_account_by_id(account_id)
@@ -38,17 +43,16 @@ class TradingAccountRepository(TradingAccountDAOInterface):
         dtos = []
         for acc in accounts:
             dto = TradingAccountMapper.entity_to_dto(acc)
-            # dto.password = decrypt_password(acc.password)
+            dto.password = decrypt(dto.password)
             dtos.append(dto)
         return dtos
-
 
     # Getters
     def get_credentials_by_id(self, account_id: int) -> Optional[TradingAccountDTO]:
         account = self.session.query(TradingAccountEntity).filter_by(account_id=account_id).first()
         if account:
             dto = TradingAccountMapper.entity_to_dto(account)
-            # dto.password = decrypt_password(account.password)
+            dto.password = decrypt(dto.password)
             return dto
         return None
 
@@ -57,6 +61,5 @@ class TradingAccountRepository(TradingAccountDAOInterface):
         dtos = []
         for acc in accounts:
             dto = TradingAccountMapper.entity_to_dto(acc)
-            # dto.password = decrypt_password(acc.password)
             dtos.append(dto)
         return dtos

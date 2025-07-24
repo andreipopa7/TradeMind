@@ -9,6 +9,9 @@ class BacktestBAL:
     def create_backtest(self, bto: BacktestBTO) -> BacktestBTO:
         return self.service.create_backtest(bto)
 
+    def run_backtest_preview(self, bto: BacktestBTO) -> dict:
+        return self.service.run_backtest_preview(bto)
+
     def get_backtest_by_id(self, backtest_id: int) -> Optional[BacktestBTO]:
         return self.service.get_backtest_by_id(backtest_id)
 
@@ -21,5 +24,11 @@ class BacktestBAL:
     def update_backtest(self, backtest_id: int, updated_bto: BacktestBTO) -> Optional[BacktestBTO]:
         return self.service.update_backtest(backtest_id, updated_bto)
 
+    def get_backtest_metrics(self, backtest_id: int) -> Optional[dict]:
+        return self.service.get_backtest_metrics(backtest_id)
+
     def delete_backtest(self, backtest_id: int) -> bool:
         return self.service.delete_backtest(backtest_id)
+
+    def update_backtest_metrics(self, backtest_id: int, metrics: dict) -> bool:
+        return self.service.update_backtest_metrics(backtest_id, metrics)

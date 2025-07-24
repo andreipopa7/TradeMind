@@ -20,7 +20,7 @@ export const SideMenuData: SidebarItem[] = [
         cName: "side-menu-text",
     },
     {
-        title: "** Trading Accounts",
+        title: "Trading Accounts",
         path: "#",
         icon: <IoPeople />,
         cName: "side-menu-text",
@@ -87,7 +87,7 @@ export const SideMenuData: SidebarItem[] = [
         arrow: <IoChevronDown />,
     },
     {
-        title: "**Economic Calendar",
+        title: "Economic Calendar",
         path: "/economic-calendar",
         icon: <FaCalendarAlt />,
         cName: "side-menu-text",

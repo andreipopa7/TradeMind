@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import {calendars} from "../../components/utils";
+
 import SideMenu from "../../components/side_menu/SideMenu";
 import NavBar from "../../components/nav_bar/NavBar";
+import Footer from "../../components/footer/Footer";
+
+import '../../styles/GlobalStyles.css';
+import '../../styles/FormStyles.css';
 import "./EconomicCalendarStyles.css";
 
-const EconomicCalendarPage: React.FC = () => {
-    const calendars = {
-        "Investing.com": "https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&importance=2,3&features=datepicker,timezone,filters&countries=25,32,6,37,72,22,17,39,14,10,35,43,56,36,110,11,26,12,4,5&calType=week&timeZone=65&lang=1",
-        "Trading Economics": "https://tradingeconomics.com/calendar",
-        "TradingView": "tradingview"
-    };
 
+const EconomicCalendarPage: React.FC = () => {
     const [selectedCalendar, setSelectedCalendar] = useState<keyof typeof calendars>("Investing.com");
 
     useEffect(() => {
@@ -39,32 +40,34 @@ const EconomicCalendarPage: React.FC = () => {
     }, [selectedCalendar]);
 
     return (
-        <div className="economic-calendar-page">
-            <NavBar />
-            <div className="economic-calendar-content">
+        <div className="app-container">
+            <NavBar/>
+
+            <div className="main-content">
                 <div className="side-menu">
                     <SideMenu />
                 </div>
 
-                <div className="calendar-content">
-                    <h1>Economic Calendar</h1>
+                <div className="page-content">
+                    <h2 className="page-title">Economic Calendar</h2>
 
-                    <div className="calendar-selector">
-                        <label htmlFor="calendar">Choose a calendar:</label>
-                        <select
-                            id="calendar"
-                            value={selectedCalendar}
-                            onChange={(e) => setSelectedCalendar(e.target.value as keyof typeof calendars)}
-                        >
-                            {Object.keys(calendars).map((key) => (
-                                <option key={key} value={key}>
-                                    {key}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <div className="form-container economic-container">
+                        <div className="calendar-selector">
+                            <label htmlFor="calendar">Choose a calendar:</label>
+                            <select
+                                id="calendar"
+                                value={selectedCalendar}
+                                onChange={(e) => setSelectedCalendar(e.target.value as keyof typeof calendars)}
+                            >
+                                {Object.keys(calendars).map((key) => (
+                                    <option key={key} value={key}>
+                                        {key}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                    <div className="calendar-iframe-container">
+                        <div className="calendar-iframe-container">
                         {selectedCalendar === "TradingView" ? (
                             <div id="tradingview-container" className="tradingview-widget-container">
                                 <div className="tradingview-widget-container__widget"></div>
@@ -78,6 +81,8 @@ const EconomicCalendarPage: React.FC = () => {
                             ></iframe>
                         )}
                     </div>
+                    </div>
+                    <Footer/>
                 </div>
             </div>
         </div>

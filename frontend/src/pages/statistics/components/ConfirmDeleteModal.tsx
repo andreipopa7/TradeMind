@@ -1,6 +1,9 @@
 import React from "react";
-import { Trade } from "./Trade";
-import "../styles/ConfirmDeleteModal.css"
+
+import { Trade } from "../../../types/Trade";
+import api from "../../../configuration/AxiosConfigurations";
+import "../styles/ConfirmDeleteModal.css";
+
 
 interface ConfirmDeleteModalProps {
     trade: Trade;
@@ -9,14 +12,12 @@ interface ConfirmDeleteModalProps {
 }
 
 const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({ trade, onClose, onDeleted }) => {
-
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/trademind/trades/${trade.id}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) throw new Error("Failed to delete trade");
+            const response = await api.delete(`/api/trademind/trades/${trade.id}`);
+            if (response.status !== 200 && response.status !== 204) {
+                throw new Error("Failed to delete trade");
+            }
             onDeleted();
         } catch (error) {
             console.error("Error deleting trade:", error);

@@ -56,3 +56,6 @@ class UserDAOInterface:
     # Getters - multiple rows
     def get_all_users(self) -> List[UserDTO]:
         pass
+
+    def verify_user_by_email(self, email: str) -> None:
+        pass

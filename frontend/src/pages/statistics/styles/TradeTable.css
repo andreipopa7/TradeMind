@@ -1,19 +1,34 @@
 .trade-table-container {
-    background: #1e1e1e;
-    color: white;
+    background: var(--box-color);
+    color: var(--text-color);
     padding: 20px;
     margin-bottom: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow);
     text-align: center;
     overflow-x: auto;
 }
 
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
 .trade-table {
-    min-width: 1200px;
     width: 100%;
     border-collapse: collapse;
+    table-layout: auto;
+    /*min-width: 1000px; !* opțional, dar nu mai folosi 1200px *!*/
 }
+
+
+@media (max-width: 1024px) {
+    .trade-table {
+        min-width: unset;
+    }
+}
+
 
 .trade-table th, .trade-table td {
     padding: 12px;
@@ -27,12 +42,12 @@
     border-bottom: 1px solid #444;
     text-align: center;
     white-space: nowrap;
-    color: #f0b90b;
+    color: var(--yellow);
 }
 
 .trade-table th {
     background: #2a2a2a;
-    color: #f0b90b;
+    color: var(--yellow);
     font-size: 14px;
     position: sticky;
     top: 0;
@@ -49,7 +64,7 @@
 
 
 .add-trade-btn {
-    background: #f0b90b;
+    background: var(--yellow);
     color: black;
     margin-top: 10px;
     padding: 10px 20px;
@@ -60,7 +75,7 @@
 }
 
 .add-trade-btn:hover {
-    background: #d89e00;
+    background: var(--yellow);
 }
 
 .trade-table-container::-webkit-scrollbar {
@@ -69,11 +84,11 @@
 }
 
 .trade-table-container::-webkit-scrollbar-track {
-    background: #1e1e1e;
+    background: var(--box-color);
 }
 
 .trade-table-container::-webkit-scrollbar-thumb {
-    background: #444;
+    background: var(--border);
     border-radius: 5px;
 }
 
@@ -91,13 +106,13 @@
 }
 
 .pagination-controls label {
-    color: #f0b90b;
+    color: var(--yellow);
     font-weight: bold;
 }
 
 .pagination-controls select {
-    background: #333;
-    color: white;
+    background: var(--box-color-alt);
+    color: var(--text-color);
     border: 1px solid #555;
     padding: 5px 10px;
     font-size: 14px;
@@ -108,7 +123,7 @@
 
 .pagination-controls select:focus {
     outline: none;
-    border-color: #f0b90b;
+    border-color: var(--yellow);
 }
 
 .pagination-controls .add-trade-btn {
@@ -126,7 +141,7 @@
 }
 
 .pagination-nav button {
-    background-color: #f0b90b;
+    background-color: var(--yellow);
     border: none;
     padding: 8px 14px;
     border-radius: 5px;
@@ -140,7 +155,7 @@
 }
 
 .total-trades {
-    color: #f0b90b; 
+    color: var(--yellow);
     font-weight: bold;
     margin-left: 15px;
     font-size: 14px;

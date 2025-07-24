@@ -22,8 +22,9 @@ const DurationCard = ({ range, trades, profit }: DurationStat) => (
             <Clock4 size={18} />
         </div>
         <span className="stat-label">{range}</span>
-        <span className="stat-value">{trades} trades</span>
         <span className="stat-value">
+            {trades} {trades === 1 ? 'trade' : 'trades'}
+        </span> <span className="stat-value">
             {profit >= 0 ? '+' : '-'}${Math.abs(profit).toFixed(2)}
         </span>
     </motion.div>

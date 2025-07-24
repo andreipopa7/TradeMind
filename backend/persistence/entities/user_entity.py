@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -18,6 +18,8 @@ class UserEntity(Base):
     phone      = Column(String, nullable=False)
     gender     = Column(String, nullable=True)
     country    = Column(String, nullable=False)
+
+    is_verified = Column(Boolean, default=False)
 
     trading_accounts    = relationship("TradingAccountEntity",  back_populates="user", cascade="all, delete-orphan")
     trades              = relationship("TradeEntity",           back_populates="user", cascade="all, delete-orphan")

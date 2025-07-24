@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import api from "../../../configuration/AxiosConfigurations";
+
 import AccountInfoCard from "../components/AccountInfoCard";
 import PerformanceChart from "../components/PerformanceChart";
 import StatisticsTable from "../components/StatisticsTable";
 import TradingJournal from "../components/TradingJournal";
-import "./DashboardStyles.css";
 import NavBar from "../../../components/nav_bar/NavBar";
 import SideMenu from "../../../components/side_menu/SideMenu";
+import Footer from "../../../components/footer/Footer";
+
+import "../../../styles/GlobalStyles.css";
+import "./DashboardStyles.css";
+
 
 const AccountDashboard: React.FC = () => {
     const { account_id } = useParams();
@@ -23,45 +29,43 @@ const AccountDashboard: React.FC = () => {
     };
 
     useEffect(() => {
-        if (account_id) {
-            const fetchAccountData = async () => {
-                try {
-                    // Fetch account details
-                    const resAccount = await fetch(`http://localhost:8000/api/trademind/trading_accounts/${account_id}/credentials`);
-                    const accountData = await resAccount.json();
-                    console.log(accountData);
-                    setAccountDetails(accountData);
+        if (!account_id) return;
 
-                    // Fetch performance chart data
-                    const resPerformance = await fetch(`http://localhost:8000/api/trademind/trading_accounts/${account_id}/performance`);
-                    const performanceData = await resPerformance.json();
-                    setPerformanceData(performanceData);
+        const fetchAccountData = async () => {
+            try {
+                const resAccount = await api.get(`/api/trademind/trading_accounts/${account_id}/credentials`);
+                setAccountDetails(resAccount.data);
+            } catch {
+                setErrorMessage("Could not load account details.");
+            }
 
-                    // Fetch statistics
-                    const resStats = await fetch(`http://localhost:8000/api/trademind/trading_accounts/${account_id}/stats`);
-                    const statsData = await resStats.json();
-                    setTradeStats(statsData);
+            try {
+                const resPerformance = await api.get(`/api/trademind/trading_accounts/${account_id}/performance`);
+                setPerformanceData(resPerformance.data);
+            } catch {
+                console.warn("No performance data found for this account.");
+            }
 
-                    // Fetch trading journal
-                    const resJournal = await fetch(`http://localhost:8000/api/trademind/trading_accounts/${account_id}/trading_journal`);
-                    const journalData = await resJournal.json();
-                    setTradeJournal(journalData);
+            try {
+                const resStats = await api.get(`/api/trademind/trading_accounts/${account_id}/stats`);
+                setTradeStats(resStats.data);
+            } catch {
+                console.warn("No trade statistics found for this account.");
+            }
 
-                    console.log("Stats API Response:", accountDetails);
-                    console.log("Stats API Response:", performanceData);
-                    console.log("Stats API Response:", tradeStats);
-                    console.log("Stats API Response:", tradeJournal);
-                } catch (error) {
-                    setErrorMessage("Failed to load account details.");
-                }
-            };
+            try {
+                const resJournal = await api.get(`/api/trademind/trading_accounts/${account_id}/trading_journal`);
+                setTradeJournal(resJournal.data);
+            } catch {
+                console.warn("No trade journal found for this account.");
+            }
+        };
 
-            fetchAccountData();
-        }
+        fetchAccountData();
     }, [account_id]);
 
     return (
-        <div className="account-dashboard">
+        <div className="app-container">
             <NavBar />
 
             <div className="main-content">
@@ -71,7 +75,7 @@ const AccountDashboard: React.FC = () => {
 
                 <div className="page-content">
 
-                    <h1>Account Metrics for {account_id}</h1>
+                    <h2 className="page-title">Account Metrics for {account_id}</h2>
 
 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -85,6 +89,8 @@ const AccountDashboard: React.FC = () => {
                             <TradingJournal trades={tradeJournal || null}/>
                         </>
                     )}
+
+                    <Footer />
                 </div>
             </div>
         </div>

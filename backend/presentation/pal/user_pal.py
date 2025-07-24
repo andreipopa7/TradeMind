@@ -1,6 +1,9 @@
-from presentation.pao.interfaces.user_pao_interface import UserPAOInterface
-from configurations.jwt_authentification import create_access_token, create_refresh_token ,decode_token
+from pydantic import BaseModel
 
+from presentation.pao.interfaces.user_pao_interface import UserPAOInterface
+
+class PasswordRequest(BaseModel):
+    password: str
 
 class UserPAL:
     def __init__(self, user_pao: UserPAOInterface):
@@ -31,22 +34,19 @@ class UserPAL:
     def update_user_details(self, user_id: int, updated_data: dict) -> dict:
         return self.user_pao.update_user_details(user_id, updated_data)
 
-    def reset_password(self, email: str, current_password: str, new_password: str) -> None:
-        return self.user_pao.reset_password(email, current_password, new_password)
+    def update_password(self, email: str, current_password: str, new_password: str) -> None:
+        return self.user_pao.update_password(email, current_password, new_password)
+
 
     def login_user(self, user_data: dict) -> dict:
         return self.user_pao.login_user(user_data)
 
+    def verify_user_email_by_token(self, token: str) -> dict:
+        return self.user_pao.verify_user_email_by_token(token)
 
-    def validate_token(self, token: str) -> dict:
-        payload = decode_token(token)
-        return {"email": payload["sub"]}
+    def forgot_password(self, email: str) -> None:
+        self.user_pao.forgot_password(email)
 
-    def refresh_token(self, refresh_token: str) -> dict:
-        payload = decode_token(refresh_token)
-        if payload["type"] != "refresh":
-            raise ValueError("Invalid token type")
-        new_access_token = create_access_token(email=payload["sub"])
-        return {"access_token": new_access_token}
-
+    def reset_password(self, token: str, new_password: str) -> None:
+        self.user_pao.reset_password(token, new_password)
 

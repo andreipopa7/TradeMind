@@ -56,3 +56,10 @@ class UserBAOInterface:
 
     def update_user(self, user_id: int, user_bto: UserBTO) -> UserBTO:
         pass
+
+
+    def verify_user_by_email(self, email: str) -> None:
+        pass
+
+    def reset_user_password(self, email: str, new_password: str) -> None:
+        pass

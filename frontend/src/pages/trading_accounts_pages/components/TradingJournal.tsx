@@ -1,19 +1,10 @@
 import React from "react";
 import "../view_accounts/DashboardStyles.css";
 import "./TradingJournal.css";
+import {TradeJournal} from "../../../types/TradeProps";
 
-interface Trade {
-    ticket: number;
-    symbol?: string;
-    volume?: number;
-    price?: number;
-    commission?: number;
-    swap?: number;
-    profit?: number;
-    time?: string | number;
-}
 
-const TradingJournal: React.FC<{ trades: Trade[] }> = ({ trades }) => {
+const TradingJournal: React.FC<{ trades: TradeJournal[] }> = ({ trades }) => {
     if (!Array.isArray(trades) || trades.length === 0) {
         return <p>No trade history available.</p>;
     }

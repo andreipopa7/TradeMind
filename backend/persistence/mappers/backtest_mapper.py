@@ -8,14 +8,22 @@ class BacktestMapper:
             id            = backtest.id,
             user_id       = backtest.user_id,
             strategy_id   = backtest.strategy_id,
+
             symbol        = backtest.symbol,
-            source        = backtest.source,
             time_frame    = backtest.time_frame,
             start_date    = backtest.start_date,
             end_date      = backtest.end_date,
+
+            initial_balance=backtest.initial_balance,
+            risk_per_trade= backtest.risk_per_trade,
+
             total_profit  = backtest.total_profit,
-            trades_json   = backtest.trades_json,
-            candles_json  = backtest.candles_json,
+            drawdown_max=backtest.drawdown_max,
+            winrate=backtest.winrate,
+            nr_trades=backtest.nr_trades,
+            profit_factor=backtest.profit_factor,
+            expectancy=backtest.expectancy,
+
             created_at    = backtest.created_at
         )
 
@@ -25,13 +33,21 @@ class BacktestMapper:
             id            = dto.id,
             user_id       = dto.user_id,
             strategy_id   = dto.strategy_id,
+
             symbol        = dto.symbol,
-            source        = dto.source,
             time_frame    = dto.time_frame,
             start_date    = dto.start_date,
             end_date      = dto.end_date,
+
+            initial_balance=dto.initial_balance,
+            risk_per_trade= dto.risk_per_trade,
+
             total_profit  = dto.total_profit,
-            trades_json   = dto.trades_json,
-            candles_json  = dto.candles_json,
+            drawdown_max=dto.drawdown_max,
+            winrate=dto.winrate,
+            nr_trades=dto.nr_trades,
+            profit_factor=dto.profit_factor,
+            expectancy=dto.expectancy,
+
             created_at    = dto.created_at
         )

@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.exc import IntegrityError, DatabaseError
 from business.bal.strategy_bal import StrategyBAL
 from business.bao.services.strategy_bao_service import StrategyBAOService
+from configurations.jwt_authentification import get_current_user
 from persistence.dal.strategy_dal import StrategyDAL
 from presentation.pao.services.strategy_pao_service import StrategyPAOService
 from presentation.pal.strategy_pal import StrategyPAL
@@ -16,9 +17,11 @@ strategy_bal = StrategyBAL(strategy_bao)
 strategy_pao = StrategyPAOService(strategy_bal)
 strategy_pal = StrategyPAL(strategy_pao)
 
+
 @router.post("/api/trademind/strategies/create")
-def create_strategy(strategy_data: dict):
+def create_strategy(strategy_data: dict, current_user: dict = Depends(get_current_user)):
     try:
+        strategy_data["user_id"] = current_user["user_id"]
         return strategy_pal.create_strategy(strategy_data)
     except IntegrityError:
         raise HTTPException(status_code=400, detail="Database constraint violation.")
@@ -29,7 +32,7 @@ def create_strategy(strategy_data: dict):
 
 
 @router.get("/api/trademind/strategies/strategy/{strategy_id}")
-def get_strategy_by_id(strategy_id: int):
+def get_strategy_by_id(strategy_id: int, current_user: dict = Depends(get_current_user)):
     try:
         strategy = strategy_pal.get_strategy_by_id(strategy_id)
         if not strategy:
@@ -38,12 +41,16 @@ def get_strategy_by_id(strategy_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
 
+
 @router.get("/api/trademind/strategies/user/{user_id}")
-def get_strategies_by_user(user_id: int):
+def get_strategies_by_user(user_id: int, current_user: dict = Depends(get_current_user)):
+    if current_user["user_id"] != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized to view these strategies.")
     try:
         return strategy_pal.get_strategies_by_user(user_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
 
 @router.get("/api/trademind/strategies/public")
 def get_public_strategies():
@@ -51,6 +58,7 @@ def get_public_strategies():
         return strategy_pal.get_public_strategies()
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
 
 @router.put("/api/trademind/strategies/update/{strategy_id}")
 def update_strategy(strategy_id: int, strategy_data: dict):
@@ -63,6 +71,7 @@ def update_strategy(strategy_id: int, strategy_data: dict):
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
+
 
 @router.delete("/api/trademind/strategies/{strategy_id}")
 def delete_strategy(strategy_id: int):

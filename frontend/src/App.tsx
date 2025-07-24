@@ -18,6 +18,9 @@ import NewStatisticPage from "./pages/statistics/NewStatisticPage";
 import BacktestingPage from "./pages/backtesting_pages/BacktestingPage";
 import InboxPage from "./pages/inbox/InboxPage";
 import PersonalCalendarPage from "./pages/personal_calendar_pages/PersonalCalendarPage";
+import VerifyEmailPage from "./pages/auth_pages/VerifyEmailPage";
+import ResetPasswordPage from "./pages/auth_pages/ResetPasswordPage";
+import ForgotPasswordPage from "./pages/auth_pages/ForgotPasswordPage";
 
 
 function App() {
@@ -30,6 +33,9 @@ function App() {
                 {/* Auth pages */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/verify-email" element={<VerifyEmailPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
 
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/edit-credentials" element={<SettingsPage />} />
@@ -47,6 +53,7 @@ function App() {
 
                 {/* Backtesting pages */}
                 <Route path="/backtesting/new-session" element={<BacktestingPage />} />
+                {/*<Route path="/backtesting/history" element={<BacktestingPage />} />*/}
 
                 {/* Other pages */}
                 <Route path="/economic-calendar" element={<EconomicCalendarPage />} />

@@ -65,3 +65,6 @@ class UserDAL:
 
     def validate_current_password_by_email(self, email: str, current_password: str) -> bool:
         return self.user_repository.validate_current_password_by_email(email, current_password)
+
+    def verify_user_by_email(self, email: str) -> None:
+        self.user_repository.verify_user_by_email(email)

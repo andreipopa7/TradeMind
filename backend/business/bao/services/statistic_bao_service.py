@@ -10,7 +10,8 @@ from business.bto.trade_bto import TradeBTO
 from business.mappers.statistic_mapper import StatisticMapper
 from persistence.dal.statistic_dal import StatisticDAL
 from persistence.dal.trade_dal import TradeDAL
-from persistence.entities.utils_entity import SessionType
+from persistence.entities.utils_entity import SessionType, TradeType
+from persistence.utils.data_validators import validate_statistic_params, validate_statistic_name
 
 
 def parse_statistic_params(params: Dict[str, Any]) -> Dict[str, Any]:
@@ -26,7 +27,7 @@ def parse_statistic_params(params: Dict[str, Any]) -> Dict[str, Any]:
             raise ValueError(f"Invalid session type: {e}")
 
     if "source_type" in params:
-        filters["source_type"] = params["source_type"]
+        filters["source_type"] = params["source_type"].upper()
 
     if "min_volume" in params:
         filters["min_volume"] = float(params["min_volume"])
@@ -34,7 +35,6 @@ def parse_statistic_params(params: Dict[str, Any]) -> Dict[str, Any]:
     if "max_volume" in params:
         filters["max_volume"] = float(params["max_volume"])
 
-    # Parseaza datele ca obiecte datetime.date
     if "start_date" in params:
         filters["start_date"] = datetime.strptime(params["start_date"], "%Y-%m-%d").date()
 
@@ -53,6 +53,9 @@ class StatisticBAOService(StatisticBAOInterface):
 
 
     def create_statistic(self, bto: StatisticBTO) -> StatisticBTO:
+        validate_statistic_name(bto.name)
+        validate_statistic_params(bto.params)
+
         dto = StatisticMapper.bto_to_dto(bto)
         saved_dto = self.dal.add_statistic(dto, user_id=bto.user_id)
         return StatisticMapper.dto_to_bto(saved_dto)
@@ -139,8 +142,8 @@ class StatisticBAOService(StatisticBAOInterface):
             })
 
         # Long vs Short
-        long_trades = [t for t in trades if t.type == 'buy']
-        short_trades = [t for t in trades if t.type == 'sell']
+        long_trades = [t for t in trades if t.type == TradeType.BUY]
+        short_trades = [t for t in trades if t.type == TradeType.SELL]
 
         def stat_info(trades_subset):
             if not trades_subset:
@@ -240,5 +243,3 @@ class StatisticBAOService(StatisticBAOInterface):
                 "by_duration": by_duration
             }
         }
-
-

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Trade } from "./components/Trade";
+import {useAuth} from "../../configuration/UseAuth";
+import { Trade } from "../../types/Trade";
+
+import api from "../../configuration/AxiosConfigurations";
 import TradeTable from "./components/TradeTabel"
 import TradeFormModal from "./components/TradeFormModal";
 import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
 import NavBar from "../../components/nav_bar/NavBar";
 import SideMenu from "../../components/side_menu/SideMenu";
+import Footer from "../../components/footer/Footer";
+
+import "../../styles/GlobalStyles.css"
 import "./styles/MyTradesPage.css"
 
 
@@ -15,29 +21,25 @@ const MyTradesPage = () => {
     const [showDelete, setShowDelete] = useState(false);
     const [sortField, setSortField] = useState<keyof Trade>("open_date");
     const [sortOrder, setSortOrder] = useState("asc");
+    const user = useAuth();
 
-    const userId = localStorage.getItem("user_id");
+    const fetchTrades = async () => {
+        if (!user?.id) return;
 
-    const fetchTrades = () => {
-        fetch(`http://localhost:8000/api/trademind/trades/user/${userId}`)
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setTrades(data);
-                } else {
-                    setTrades([]);
-                }
-            })
-            .catch((err) => {
-                console.error("Eroare la preluarea trade-urilor:", err);
-                setTrades([]);
-            });
+        try {
+            const response = await api.get(`/api/trademind/trades/user/${user.id}`);
+            const data = response.data;
+            setTrades(Array.isArray(data) ? data : []);
+        } catch (err) {
+            console.error("Eroare la preluarea trade-urilor:", err);
+            setTrades([]);
+        }
     };
-
 
     useEffect(() => {
         fetchTrades();
-    }, [userId]);
+    }, [user]);
+
 
     const sortedTrades = [...trades].sort((a, b) => {
         if (sortField === "profit") return sortOrder === "asc"
@@ -53,7 +55,7 @@ const MyTradesPage = () => {
     });
 
     return (
-        <div className="my-trades-container">
+        <div className="app-container">
             <NavBar />
 
             <div className="main-content">
@@ -62,8 +64,8 @@ const MyTradesPage = () => {
                 </div>
 
                 <div className="page-content">
+                    <h2 className="page-title">My Trades</h2>
 
-                    <h1>My Trades</h1>
                     <TradeTable
                         trades={sortedTrades}
                         onEdit={(trade: Trade) => {
@@ -108,6 +110,8 @@ const MyTradesPage = () => {
                             }}
                         />
                     )}
+
+                    <Footer />
                 </div>
             </div>
         </div>

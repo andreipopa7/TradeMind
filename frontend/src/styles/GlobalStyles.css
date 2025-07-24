@@ -1,4 +1,83 @@
 /* GlobalStyles.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.dark {
+    --bg-color-2: #1e1e1e;
+    --bg-color: #333333;
+    --box-color: #303030;
+    --box-color-alt: #2a2a2a;
+    --text-color: #e0e0e0;
+    --text-color-secondary: #aaa;
+    --accent: #00e676;
+    --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    --border: rgba(255, 255, 255, 0.07);
+    --yellow: #f0b90b;
+    --overlay-color: rgba(0, 0, 0, 0.7);
+}
+
+body.light {
+    --bg-color-2: #f5f7fb;
+    --bg-color: #f5f7fb;
+    --box-color: #ffffff;
+    --box-color-alt: #dad7d7;
+    --text-color: #171616;
+    --text-color-secondary: #555;
+    --accent: #00e676;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --border: #121212;
+    --yellow: #c77900;
+    --overlay-color: rgba(255, 255, 255, 0.7);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 800;
+    color: transparent;
+    background: linear-gradient(90deg, #f0b90b, #f0b90b 30%, var(--accent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.page-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    margin: 12px auto 0;
+    background-color: var(--accent);
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--accent);
+}
+
 
 .menu-button {
     width: 100%;
@@ -16,22 +95,37 @@
     background-color: #0056b3;
 }
 
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .main-content {
     display: flex;
     flex: 1;
-    overflow: hidden;
+    background-color: var(--box-color-alt);
 }
 
 .page-content {
-    margin-top: 20px;
+    /*background-color: #d9534f;*/
+    display: flex;
+    flex-direction: column;
     flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    height: 100%;
+    padding: 70px 10px 0 30px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
 }
 
-
-
+.page-body {
+    flex: 1;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .side-menu {
     width: 250px;

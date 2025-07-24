@@ -1,14 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import {
-    createChart,
-    CrosshairMode,
-    Time
-} from "lightweight-charts";
+import {createChart, CrosshairMode, Time} from "lightweight-charts";
+
 
 interface Trade {
     trade_id: number;
     action: string;
-    timestamp: string;
+    timestamp: number;
     price: number;
     profit: number;
 }
@@ -26,6 +23,7 @@ interface Props {
     trades: Trade[];
     candles: Candle[];
 }
+
 
 const BacktestChart: React.FC<Props> = ({ data, trades, candles }) => {
     const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -47,17 +45,18 @@ const BacktestChart: React.FC<Props> = ({ data, trades, candles }) => {
         candleSeries.setData(
             candles.map(c => ({
                 time: c.time as Time,
-                open: c.open,
-                high: c.high,
-                low: c.low,
-                close: c.close
+                open: Number(c.open),
+                high: Number(c.high),
+                low: Number(c.low),
+                close: Number(c.close),
             }))
         );
+
 
         // Markerele de trade
         candleSeries.setMarkers(
             trades.map(trade => ({
-                time: Math.floor(new Date(trade.timestamp).getTime() / 1000) as Time,
+                time: trade.timestamp as Time,
                 position: trade.action.includes("SELL") ? 'aboveBar' : 'belowBar',
                 color: trade.action.includes("SELL") ? 'red' : 'green',
                 shape: 'arrowUp',

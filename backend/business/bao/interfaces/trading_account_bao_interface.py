@@ -12,7 +12,7 @@ class TradingAccountBAOInterface:
         pass
 
     # Getters
-    def get_account_info_by_id(self, account_id: int) -> dict:
+    def get_account_info_by_id(self, account_id: int, force_reload: bool = False) -> dict:
         pass
 
     def get_active_trades_by_id(self, account_id: int) -> List[dict]:

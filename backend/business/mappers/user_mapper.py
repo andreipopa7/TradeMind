@@ -14,7 +14,8 @@ class UserMapper:
 
             phone=user_dto.phone,
             gender=user_dto.gender,
-            country=user_dto.country
+            country=user_dto.country,
+            is_verified=user_dto.is_verified
         )
 
     @staticmethod
@@ -29,5 +30,6 @@ class UserMapper:
 
             phone=user_bto.phone,
             gender=user_bto.gender,
-            country=user_bto.country
+            country=user_bto.country,
+            is_verified=user_bto.is_verified
         )

@@ -1,0 +1,36 @@
+.credentials-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    padding: 20px 30px;
+    border-radius: 12px;
+    color: white;
+    position: relative;
+    width: 420px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button.delete-confirm {
+    background-color: #cc3333;
+    color: white;
+    padding: 8px 14px;
+}
+
+button.delete-cancel {
+    background-color: #666;
+    color: white;
+    padding: 8px 14px;
+}

@@ -15,7 +15,7 @@ const NewBacktesting: React.FC = () => {
                 </div>
 
                 <div className="page-content">
-                    <h1>NewBacktesting Page</h1>
+                    <h2 className="page-title"> NewBacktesting Page</h2>
                     <p>Acesta este conținutul principal al paginii.</p>
                 </div>
             </div>

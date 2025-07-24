@@ -25,6 +25,7 @@ class BacktestRepository(BacktestDAOInterface):
         self.db.commit()
         return True
 
+
     def get_backtest_by_id(self, backtest_id: int) -> Optional[BacktestDTO]:
         entity = self.db.query(BacktestEntity).filter(BacktestEntity.id == backtest_id).first()
         return BacktestMapper.entity_to_dto(entity) if entity else None
@@ -36,6 +37,22 @@ class BacktestRepository(BacktestDAOInterface):
     def get_backtests_by_strategy(self, strategy_id: int) -> List[BacktestDTO]:
         entities = self.db.query(BacktestEntity).filter(BacktestEntity.strategy_id == strategy_id).all()
         return [BacktestMapper.entity_to_dto(e) for e in entities]
+
+    def get_backtest_metrics(self, backtest_id: int) -> Optional[dict]:
+        entity = self.db.query(BacktestEntity).filter(BacktestEntity.id == backtest_id).first()
+        if not entity:
+            return None
+        return {
+            "initial_balance": entity.initial_balance,
+            "risk_per_trade": entity.risk_per_trade,
+            "total_profit": entity.total_profit,
+            "drawdown_max": entity.drawdown_max,
+            "winrate": entity.winrate,
+            "nr_trades": entity.nr_trades,
+            "profit_factor": entity.profit_factor,
+            "expectancy": entity.expectancy
+        }
+
 
     def update_backtest(self, backtest_id: int, updated_dto: BacktestDTO) -> Optional[BacktestDTO]:
         backtest = self.db.query(BacktestEntity).filter(BacktestEntity.id == backtest_id).first()
@@ -53,3 +70,19 @@ class BacktestRepository(BacktestDAOInterface):
         self.db.commit()
         self.db.refresh(backtest)
         return BacktestMapper.entity_to_dto(backtest)
+
+    def update_backtest_metrics(self, backtest_id: int, metrics: dict) -> bool:
+        backtest = self.db.query(BacktestEntity).filter(BacktestEntity.id == backtest_id).first()
+        if not backtest:
+            return False
+
+        allowed_fields = [
+            "initial_balance", "risk_per_trade", "total_profit", "drawdown_max", "winrate",
+            "nr_trades", "profit_factor", "expectancy"
+        ]
+        for key, value in metrics.items():
+            if key in allowed_fields:
+                setattr(backtest, key, value)
+
+        self.db.commit()
+        return True

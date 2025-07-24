@@ -34,8 +34,18 @@ class UserPAOInterface:
     def update_user_details(self, user_id: int, updated_data: dict) -> dict:
         pass
 
-    def reset_password(self, email: str, current_password: str, new_password: str) -> None:
+    def update_password(self, email: str, current_password: str, new_password: str) -> None:
         pass
 
     def login_user(self, user_data: dict) -> dict:
         pass
+
+    def verify_user_email_by_token(self, token: str) -> dict:
+        pass
+
+    def forgot_password(self, email: str) -> None:
+        pass
+
+    def reset_password(self, token: str, new_password: str) -> None:
+        pass
+

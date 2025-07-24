@@ -27,6 +27,17 @@ def create_backtest(backtest_data: dict):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error: " + str(e))
 
+@router.post("/api/trademind/backtests/preview")
+def run_backtest_preview(backtest_data: dict):
+    try:
+        response = backtest_pal.run_backtest_preview(backtest_data)
+        return response
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 @router.get("/api/trademind/backtests/{backtest_id}")
 def get_backtest_by_id(backtest_id: int):
     try:

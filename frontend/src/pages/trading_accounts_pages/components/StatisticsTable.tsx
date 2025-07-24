@@ -1,17 +1,9 @@
 import React from "react";
+
+import {StatsProps} from "../../../types/StatsProps";
 import "../view_accounts/DashboardStyles.css";
 import "./StatisticsTable.css";
 
-
-interface StatsProps {
-    stats: {
-        totalTrades?: number;
-        winRate?: number;
-        avgProfit?: number;
-        avgLoss?: number;
-        profitFactor?: number;
-    } | null;
-}
 
 const StatisticsTable: React.FC<{ stats: StatsProps["stats"] }> = ({ stats }) => {
     if (!stats) {
@@ -19,7 +11,7 @@ const StatisticsTable: React.FC<{ stats: StatsProps["stats"] }> = ({ stats }) =>
     }
 
     return (
-        <div className="statistics-table">
+        <div className="form-container statistics-table">
             <h2>Statistics</h2>
             <div className="stats-grid">
                 <div><strong>No. of Trades:</strong> {stats.totalTrades !== undefined ? stats.totalTrades : "N/A"}</div>

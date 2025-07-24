@@ -21,7 +21,13 @@ class BacktestDAOInterface:
     def get_backtests_by_strategy(self, strategy_id: int) -> List[BacktestDTO]:
         pass
 
+    def get_backtest_metrics(self, backtest_id: int) -> Optional[dict]:
+        pass
+
 
     # Setters
     def update_backtest(self, backtest_id: int, updated_dto: BacktestDTO) -> Optional[BacktestDTO]:
+        pass
+
+    def update_backtest_metrics(self, backtest_id: int, metrics: dict) -> bool:
         pass

@@ -14,7 +14,7 @@ class UserDTO(BaseModel):
     gender:     str
     country:    str
 
-
+    is_verified: bool
 
     class Config:
         from_attributes = True

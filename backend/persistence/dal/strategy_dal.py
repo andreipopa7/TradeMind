@@ -3,6 +3,8 @@ from typing import List, Optional
 from persistence.dao.interfaces.strategy_dao_interface import StrategyDAOInterface
 from persistence.dao.repositories.strategy_repository import StrategyRepository
 from persistence.dto.strategy_dto import StrategyDTO
+from persistence.entities.utils_entity import StrategyType
+
 
 class StrategyDAL:
     def __init__(self, db: Session):
@@ -22,6 +24,9 @@ class StrategyDAL:
 
     def get_public_strategies(self) -> List[StrategyDTO]:
         return self.repo.get_public_strategies()
+
+    def get_strategies_by_type(self, type: StrategyType) -> List[StrategyDTO]:
+        return self.repo.get_strategies_by_type(type)
 
     def update_strategy(self, strategy_id: int, updated_dto: StrategyDTO) -> Optional[StrategyDTO]:
         return self.repo.update_strategy(strategy_id, updated_dto)

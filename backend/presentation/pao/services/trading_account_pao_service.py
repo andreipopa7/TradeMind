@@ -50,8 +50,8 @@ class TradingAccountPAOService(TradingAccountPAOInterface):
         return self.bal.delete_trading_account(account_id)
 
     # Getters
-    def get_account_info_by_id(self, account_id: int) -> dict:
-        return self.bal.get_account_info_by_id(account_id)
+    def get_account_info_by_id(self, account_id: int, force_reload: bool = False) -> dict:
+        return self.bal.get_account_info_by_id(account_id, force_reload)
 
     def get_trade_history_by_id(self, account_id: int) -> List[dict]:
         return self.bal.get_trade_history_by_id(account_id)

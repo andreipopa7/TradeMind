@@ -1,0 +1,76 @@
+.page-content h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #f0b90b;
+}
+
+.backtesting-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.backtest-card {
+    margin-bottom: 2%;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 380px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.backtest-card:hover {
+    box-shadow: 0 6px 12px rgba(240, 185, 11, 0.3);
+}
+
+.backtest-card h3 {
+    color: #f0b90b;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.backtest-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.backtest-info-item {
+    background: #2c2c2c;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.backtest-info-item span {
+    font-weight: bold;
+    color: #f0b90b;
+}
+
+
+.backtest-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.backtest-button {
+    background-color: #f0b90b;
+    color: #1e1e1e;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.backtest-button:hover {
+    background-color: #d9a500;
+}

@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "../view_accounts/DashboardStyles.css";
-import "./AccountCard.css";
 import { useNavigate } from "react-router-dom";
 
-interface AccountProps {
-    account: {
-        account_id: string;
-        broker_name: string;
-        status?: string;
-        platform?: string;
-        password?: string;
-        server?: string;
-        balance?: number | null;
-        equity?: number | null;
-        active_positions?: number | null;
-        currency?: string | null;
-    };
-    onDelete: (accountId: number) => void;
-}
+import api from "../../../configuration/AxiosConfigurations";
+import {AccountProps} from "../../../types/AccountProps";
+import "../view_accounts/DashboardStyles.css";
+
+import "../../../styles/GlobalStyles.css";
+import "../../../styles/FormStyles.css";
+import "./AccountCard.css";
+
 
 const AccountInfoCard: React.FC<AccountProps> = ({ account, onDelete }) => {
     const navigate = useNavigate();
@@ -51,11 +42,8 @@ const AccountInfoCard: React.FC<AccountProps> = ({ account, onDelete }) => {
             }
 
             try {
-                const response = await fetch(`http://localhost:8000/api/trademind/trading_accounts/${account.account_id}/get_account_info`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch account info: ${response.status}`);
-                }
-                const data = await response.json();
+                const response = await api.get(`/api/trademind/trading_accounts/${account.account_id}/get_account_info`);
+                const data = response.data;
 
                 if (isMounted) {
                     const formattedData = {
@@ -84,8 +72,6 @@ const AccountInfoCard: React.FC<AccountProps> = ({ account, onDelete }) => {
         };
     }, [account.account_id]);
 
-
-
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
     };
@@ -109,13 +95,13 @@ const AccountInfoCard: React.FC<AccountProps> = ({ account, onDelete }) => {
     };
 
     return (
-        <div className="account-info-card">
+        <div className="form-container account-info-card">
             <h2>{account.broker_name} {account.account_id}</h2>
 
             {loading ? (
                 <p>Loading account data...</p>
             ) : error ? (
-                <p className="error-message">{error}</p>
+                <p className="form-error">{error}</p>
             ) : (
                 <div className="info-grid">
                     <div><strong>Status:</strong> {account.status ?? "Active"}</div>
@@ -127,27 +113,27 @@ const AccountInfoCard: React.FC<AccountProps> = ({ account, onDelete }) => {
                 </div>
             )}
 
-            <div className="account-buttons">
+            {/*<div className="account-buttons">*/}
 
                 {window.location.pathname.includes("dashboard/") ? (
-                    <button className="credentials-button" onClick={() => setShowCredentials(true)}>Credentials</button>
+                    <button className="form-button" onClick={() => setShowCredentials(true)}>Credentials</button>
                 ) : (
                     <>
                         <button
-                            className="metrics-button"
+                            className="form-button"
                             onClick={() => navigate(`/accounts/dashboard/${account.account_id}`)}>MetriX
                         </button>
 
                         <button
-                            className="credentials-button" onClick={() => setShowCredentials(true)}>Credentials
+                            className="form-button" onClick={() => setShowCredentials(true)}>Credentials
                         </button>
 
                         <button
-                            className="delete-button" onClick={() => setShowDeleteConfirm(true)}>Delete
+                            className="form-button" onClick={() => setShowDeleteConfirm(true)}>Delete
                         </button>
                     </>
                 )}
-            </div>
+            {/*</div>*/}
 
             {showCredentials && (
                 <div className="credentials-modal">

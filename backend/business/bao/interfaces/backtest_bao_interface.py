@@ -5,6 +5,9 @@ class BacktestBAOInterface:
     def create_backtest(self, bto: BacktestBTO) -> BacktestBTO:
         pass
 
+    def run_backtest_preview(self, bto: BacktestBTO) -> dict:
+        pass
+
     def delete_backtest(self, backtest_id: int) -> bool:
         pass
 
@@ -17,5 +20,11 @@ class BacktestBAOInterface:
     def get_backtests_by_strategy(self, strategy_id: int) -> List[BacktestBTO]:
         pass
 
+    def get_backtest_metrics(self, backtest_id: int) -> Optional[dict]:
+        pass
+
     def update_backtest(self, backtest_id: int, updated_bto: BacktestBTO) -> Optional[BacktestBTO]:
+        pass
+
+    def update_backtest_metrics(self, backtest_id: int, metrics: dict) -> bool:
         pass

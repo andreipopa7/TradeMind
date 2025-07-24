@@ -9,14 +9,19 @@ class BacktestDTO(BaseModel):
     strategy_id: Optional[int]
 
     symbol: str
-    source: str
     time_frame: str
     start_date: Optional[datetime]
     end_date: Optional[datetime]
 
+    initial_balance: Optional[float]
+    risk_per_trade: Optional[float]
+
     total_profit: Optional[float]
-    trades_json: Optional[List[Dict]]
-    candles_json: Optional[List[Dict]]
+    drawdown_max: Optional[float]
+    winrate: Optional[float]
+    nr_trades: Optional[int]
+    profit_factor: Optional[float]
+    expectancy: Optional[float]
 
     created_at: Optional[datetime]
 

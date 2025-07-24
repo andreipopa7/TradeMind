@@ -50,7 +50,6 @@ class TradeRepository(TradeDAOInterface):
             if not trade:
                 return None
 
-            # Exclude id, user_id, source_type from being updated
             update_fields = {k: v for k, v in updated_trade_dto.dict().items() if
                              k not in ["id", "user_id", "source_type"] and v is not None}
 
